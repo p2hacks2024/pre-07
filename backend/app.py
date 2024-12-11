@@ -29,32 +29,34 @@ def read_root():
     return {"Hello": "World"}
 
 # 特定のユーザー情報を取得するエンドポイント
-@app.get("/api/user/{user_id}")
-def read_user(user_id: int):
+@app.get("/api/user/{username}")
+def read_user(username: str):
     session = SessionLocal()
-    user = session.query(User).filter(User.id == user_id).first()
+    user = session.query(User).filter(User.name == username).first()
     session.close()
     return user
 
-# 特定のユーザーが作成したアイデア一覧を取得するエンドポイント
-@app.get("/api/users/{user_id}/ideas")
-def read_user_ideas(user_id: int):
-    session = SessionLocal()
-    ideas = session.query(Ideas).filter(Ideas.user_id == user_id).all()
-    session.close()
-    return [idea.id for idea in ideas]
-
-# 特定のアイデアを取得するエンドポイント
-@app.get("/api/ideas/{idea_id}")
-def read_item(idea_id: int):
-    session = SessionLocal()
-    idea = session.query(Ideas).filter(Ideas.id == idea_id).first()
-    if not idea:
+# もしidが文字列なら特定のユーザーが作成したアイデア一覧を取得するエンドポイント
+# 数字なら特定のアイデアを取得するエンドポイント
+@app.get("/api/ideas/{id}")
+def read_user_ideas(id: str):
+    if id.isdigit():
+        idea_id = int(id)
+        session = SessionLocal()
+        idea = session.query(Ideas).filter(Ideas.id == idea_id).first()
+        if not idea:
+            session.close()
+            raise HTTPException(status_code=404, detail="Idea not found")
+        tags = session.query(Tags).filter(Tags.idea_id == idea_id).all()
         session.close()
-        raise HTTPException(status_code=404, detail="Idea not found")
-    tags = session.query(Tags).filter(Tags.idea_id == idea_id).all()
-    session.close()
-    return {"idea": idea, "tags": tags}
+        return {"idea": idea, "tags": tags}
+    else:
+        username = id
+        session = SessionLocal()
+        user_id = session.query(User).filter(User.name == username).first().id
+        ideas = session.query(Ideas).filter(Ideas.user_id == user_id).all()
+        session.close()
+        return [idea.id for idea in ideas]
 
 # アイデア一覧を取得するエンドポイント
 @app.get("/api/ideas")
