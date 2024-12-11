@@ -28,6 +28,22 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 def read_root():
     return {"Hello": "World"}
 
+# 特定のユーザー情報を取得するエンドポイント
+@app.get("/api/user/{user_id}")
+def read_user(user_id: int):
+    session = SessionLocal()
+    user = session.query(User).filter(User.id == user_id).first()
+    session.close()
+    return user
+
+# 特定のユーザーが作成したアイデア一覧を取得するエンドポイント
+@app.get("/api/users/{user_id}/ideas")
+def read_user_ideas(user_id: int):
+    session = SessionLocal()
+    ideas = session.query(Ideas).filter(Ideas.user_id == user_id).all()
+    session.close()
+    return [idea.id for idea in ideas]
+
 # 特定のアイデアを取得するエンドポイント
 @app.get("/api/ideas/{idea_id}")
 def read_item(idea_id: int):
