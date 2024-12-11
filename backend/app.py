@@ -48,8 +48,9 @@ def read_user_ideas(id: str):
             session.close()
             raise HTTPException(status_code=404, detail="Idea not found")
         tags = session.query(Tags).filter(Tags.idea_id == idea_id).all()
+        username = session.query(User).filter(User.id == idea.user_id).first().name
         session.close()
-        return {"idea": idea, "tags": tags}
+        return {"idea": idea, "username": username, "tags": tags}
     else:
         username = id
         session = SessionLocal()
@@ -87,7 +88,7 @@ def search_ideas(keyword: str):
     
     return return_ideas
 
-# ログイン処理を行うエンドポイント
+# ログイン処理を行うエン���ポイント
 @app.post("/api/login")
 def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
     session = SessionLocal()
