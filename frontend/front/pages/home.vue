@@ -1,5 +1,6 @@
 <script>
 import PostView from '@/components/PostView.vue'
+import { endpoint } from '~/components/APIEndPoint';
 
 export default {
     data() {
@@ -8,7 +9,7 @@ export default {
         }
     },
     async created() {
-        const response = await fetch('http://10.124.75.43:8000/api/ideas/')
+        const response = await fetch(endpoint + 'ideas/')
         const data = await response.json()
         this.ids = data
     },

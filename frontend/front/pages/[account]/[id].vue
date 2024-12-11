@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { endpoint } from '~/components/APIEndPoint';
+
 export default {
     data() {
         return {
@@ -27,7 +29,7 @@ export default {
         }
     },
     async created() {
-        const response = await fetch(`http://10.124.75.43:8000/api/ideas/${this.$route.params.id}`)
+        const response = await fetch( endpoint + `ideas/${this.$route.params.id}`)
         const data = await response.json()
         this.title = data.idea.title
         this.fork = data.idea.fork
