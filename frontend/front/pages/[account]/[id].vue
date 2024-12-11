@@ -3,7 +3,7 @@
         <img src="assets/sampleImage1.jpeg" alt="サムネイル" class="image">
         <div class="profile">
             <img src="https://via.placeholder.com/40" alt="アイコン">
-            <span>{{ user_id }}</span> <!-- ユーザーIDを表示 -->
+            <span>{{ username }}</span> <!-- ユーザーIDを表示 -->
         </div>
     <main class="content">
         <p>サンプル本文5000兆円ほしいああああああああああああああああああああ</p>
@@ -33,7 +33,7 @@ export default {
         const data = await response.json()
         this.title = data.idea.title
         this.fork = data.idea.fork
-        this.user_id = data.idea.user_id
+        this.username = data.username
     },
 }
 </script>

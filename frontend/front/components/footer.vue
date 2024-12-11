@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a href="#">
+        <a href="/home">
             <img src="@/assets/home.png" alt="home" />
         </a>
         <a href="#">
