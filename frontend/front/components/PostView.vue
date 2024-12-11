@@ -21,6 +21,7 @@
         background-color: #fff;
         color: black;
         text-decoration: none;
+        margin: 5%;
     }
     img {
         border-radius: 15px 15px 0 0;

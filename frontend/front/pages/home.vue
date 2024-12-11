@@ -28,7 +28,7 @@ export default {
     padding: 10px;
     background-color: #f3f3f3;
     display:flex;
-flex-wrap:wrap;
+    flex-wrap:wrap;
 }
 .postContents {
     width: 50%;
