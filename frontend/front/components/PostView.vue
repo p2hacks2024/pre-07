@@ -73,19 +73,15 @@ export default {
         return {
             title: '',
             description: '',
-            username: '' // 初期値を設定
+            username: ''
         }
-    },
+    },  
     async created() {
         const response = await fetch(`http://10.124.75.43:8000/api/ideas/${this.id}`)
         const data = await response.json()
         this.title = data.idea.title
         this.description = data.idea.description
-        this.user_id = data.idea.user_id
-        
-        const user_response = await fetch(`http://10.124.75.43:8000/api/user/${this.user_id}`)
-        const user_data = await user_response.json()
-        this.username = user_data.name
+        this.username = data.username
     },
 }
 
