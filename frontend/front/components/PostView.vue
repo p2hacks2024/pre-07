@@ -1,5 +1,5 @@
 <template>
-    <router-link :href="`/test/${id}`">
+    <a :href="`/test/${id}`">
         <div class="postView">
             <img src="https://s3-alpha-sig.figma.com/img/24d4/9623/89e7d20455cd946da2c7a04f25e0b53e?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=aB4zDlEK-PNKzH6d9HGm2fIezFDgx4cPReh5sUFllWYTj5aEEwsGbBug5DB~nlEZ3Maz9FmV-eHPCcUyT2xi48X3uA3HrE2Oso4BOGorQxu6nWfxwNyR-5OgWG0eYToQ-M4RqfI8LwQPe77gDWGhVqkv5JuxTcUcIV-qZxWgY7yicXD32sbgF7FKLqHEUI2hP-oWuDZhvbg-Zzl7L1udJfbl0eWXoXxQidnVMuLIzrWSY8zOskyUIhyrvopS3uRcqj9B4EHXSexJg1V3P~cUyyEDFB-co-QN0wL~e3iMUexqrnK1zK9nw-ZWeMwYjxsJHd6wzTJkgmrekYhzvlQICA__">
             <div class="contents">
@@ -12,7 +12,7 @@
             </div>
         
         </div>
-    </router-link>
+    </a>
 </template>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap');
