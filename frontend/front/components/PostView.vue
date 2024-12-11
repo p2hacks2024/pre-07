@@ -10,7 +10,7 @@
                 <div class="icon"></div>
                 <p>{{ username }}</p>
             </div>
-        
+
         </div>
     </a>
 </template>
@@ -62,6 +62,8 @@
 </style>
 
 <script>
+import{endpoint} from '~/components/APIEndPoint'
+
 export default {
     props: {
         id: {
@@ -77,7 +79,7 @@ export default {
         }
     },  
     async created() {
-        const response = await fetch(`http://10.124.75.43:8000/api/ideas/${this.id}`)
+        const response = await fetch(endpoint+`ideas/${this.id}`)
         const data = await response.json()
         this.title = data.idea.title
         this.description = data.idea.description
