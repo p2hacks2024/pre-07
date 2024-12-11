@@ -2,11 +2,13 @@
 <template>
     <div>
         <NuxtPage />
+        <Footer class="footer" />
     </div>
 </template>
 <style>
-    body {
-        margin: 0px;
-        padding: 0px
-    }
+body {
+    margin: 0;
+    padding: 0;
+}
+
 </style>
