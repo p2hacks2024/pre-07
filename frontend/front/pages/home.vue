@@ -23,7 +23,7 @@ export default {
     </div>
 </template>
 
-<style>
+<style scoped>
 .timeLine {
     padding: 10px;
     background-color: #f3f3f3;

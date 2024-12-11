@@ -14,7 +14,7 @@
         </div>
     </router-link>
 </template>
-<style>
+<style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap');
     .postView {
         border-radius: 15px;
