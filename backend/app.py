@@ -5,22 +5,32 @@ from sqlalchemy import create_engine
 from models.models import Base, Ideas, User, Tags
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.requests import Request
+from starlette.middleware.cors import CORSMiddleware 
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key="your-secret-key")
+
+# CORSの設定
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 DATABASE_URL = "sqlite:///db.sqlite3"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+# テスト用のエンドポイント
 @app.get("/")
 def read_root():
-    # ルートエンドポイント
     return {"Hello": "World"}
 
+# 特定のアイデアを取得するエンドポイント
 @app.get("/api/ideas/{idea_id}")
 def read_item(idea_id: int):
-    # 特定のアイデアと関連するタグを取得
     session = SessionLocal()
     idea = session.query(Ideas).filter(Ideas.id == idea_id).first()
     if not idea:
@@ -30,17 +40,17 @@ def read_item(idea_id: int):
     session.close()
     return {"idea": idea, "tags": tags}
 
+# アイデア一覧を取得するエンドポイント
 @app.get("/api/ideas")
-def read_items():
-    # すべてのアイデアのIDを取得
+def get_ideas():
     session = SessionLocal()
     ideas = session.query(Ideas.id).all()
     session.close()
     return [idea.id for idea in ideas]
 
+# アイデアを作成するエンドポイント
 @app.post("/api/idea")
-def create_item(request: Request, title: str, description: str):
-    # 新しいアイデアを作成
+def create_idea(request: Request, title: str, description: str):
     user_id = request.session.get('user_id')
     session = SessionLocal()
     idea = Ideas(title=title, description=description, user_id=user_id)
@@ -49,9 +59,19 @@ def create_item(request: Request, title: str, description: str):
     session.close()
     return idea
 
+@app.post("/api/search")
+def search_ideas(keyword: str):
+    return_ideas = []
+    session = SessionLocal()
+    ideas = session.query(Ideas).filter(Ideas.title.like(f"%{keyword}%")).all()
+    session.close()
+    return_ideas = [idea.id for idea in ideas]
+    
+    return return_ideas
+
+# ログイン処理を行うエンドポイント
 @app.post("/api/login")
 def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
-    # ログイン処理
     session = SessionLocal()
     user = session.query(User).filter(User.name == form_data.username).first()
     session.close()
@@ -62,16 +82,16 @@ def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
     print(form_data.username, user.id)
     return {"message": "Logged in successfully"}
 
+# ログイン中のユーザー情報を取得するエンドポイント
 @app.get("/api/me")
 def read_me(request: Request):
-    # ログイン中のユーザー情報を取得
     username = request.session.get('username')
     if not username:
         raise HTTPException(status_code=401, detail="Not authenticated")
     return {"username": username}
 
+# ログアウト処理を行うエンドポイント
 @app.post("/api/logout")
 def logout(request: Request):
-    # ログアウト処理
     request.session.pop('username', None)
     return {"message": "Logged out successfully"}
