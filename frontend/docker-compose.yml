@@ -12,7 +12,6 @@ services:
       - "24678:24678"
     tty: true
     environment:
-      - HOST=0.0.0.0
       - CHOKIDAR_USEPOLLING=true
     command: sh -c "yarn && yarn dev"
 volumes:
