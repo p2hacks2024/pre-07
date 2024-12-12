@@ -1,10 +1,10 @@
 <template>
     <top>{{ title }}</top>
         <img src="assets/sampleImage1.jpeg" alt="サムネイル" class="image">
-        <div class="profile">
+        <router-link class="profile" :to="`/${username}`">
             <img src="https://via.placeholder.com/40" alt="アイコン">
             <span>{{ username }}</span> <!-- ユーザーIDを表示 -->
-        </div>
+        </router-link>
     <main class="content">
         <p>サンプル本文5000兆円ほしいああああああああああああああああああああ</p>
     </main>
@@ -89,6 +89,8 @@ bottom img {
     padding: 10px 20px;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
+    text-decoration: none;
+    color: #000;
 }
 
 .profile img {
