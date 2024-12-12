@@ -1,19 +1,19 @@
 <template>
     <top>{{ title }}</top>
-        <img src="assets/sampleImage1.jpeg" alt="サムネイル" class="image">
-        <router-link class="profile" :to="`/${username}`">
-            <img src="https://via.placeholder.com/40" alt="アイコン">
-            <span>{{ username }}</span> <!-- ユーザーIDを表示 -->
-        </router-link>
+    <img src="assets/sampleImage1.jpeg" alt="サムネイル" class="image">
+    <router-link class="profile" :to="`/${username}`">
+        <img src="https://via.placeholder.com/40" alt="アイコン">
+        <span>{{ username }}</span> <!-- ユーザーIDを表示 -->
+    </router-link>
     <main class="content">
         <p>{{ content }}</p>
     </main>
     <bottom>
-        <img src="assets/comment.png" alt="comment" >
-        <img src="assets/fork.png" alt="fork" >
-        <img src="assets/heart.png" alt="heart" >
-        <img src="assets/light.png" alt="light" >
-    </bottom >
+        <img src="assets/comment.png" alt="comment">
+        <img src="assets/fork.png" alt="fork">
+        <img src="assets/heart.png" alt="heart">
+        <img src="assets/light.png" alt="light">
+    </bottom>
 
 </template>
 
@@ -29,7 +29,7 @@ export default {
         }
     },
     async created() {
-        const response = await fetch( endpoint + `ideas/${this.$route.params.id}`)
+        const response = await fetch(endpoint + `ideas/${this.$route.params.id}`)
         const data = await response.json()
         this.title = data.idea.title
         this.content = data.idea.content
@@ -39,12 +39,15 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap');
+
 .content {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
 }
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -53,6 +56,7 @@ body {
     color: #333;
 }
 top {
+    font-family: "Zen Kaku Gothic New", sans-serif;
     font-size: 24px;
     font-weight: bold;
     padding: 20px 0;
@@ -61,14 +65,19 @@ top {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 20px;
+    padding: 20px 20px;
 }
 
 bottom {
-    border-top: 1px solid #333;
+    border-top: 1px solid #a2a2a2;
+    background-color: #fff;
     display: flex;
-    margin:5px;
+    position: fixed;
+    left: 0px;
+    bottom: 60px;
+    width: 100%;
     padding-top: 10px;
+    padding-bottom: 15px;
     justify-content: space-around;
 }
 
@@ -84,10 +93,10 @@ bottom img {
 }
 
 .profile {
+    font-family: "Zen Kaku Gothic New", sans-serif;
     display: flex;
     align-items: center;
-    padding: 10px 20px;
-    border-top: 1px solid #ddd;
+    padding: 10px 40px;
     border-bottom: 1px solid #ddd;
     text-decoration: none;
     color: #000;
@@ -99,14 +108,18 @@ bottom img {
     border-radius: 50%;
     margin-right: 15px;
 }
+
 main {
     padding: 40px;
 }
+
 h1 {
     font-size: 24px;
     margin-bottom: 15px;
 }
+
 p {
+    font-family: "Zen Kaku Gothic New", sans-serif;
     font-size: 16px;
     line-height: 1.5;
 }
