@@ -22,6 +22,7 @@ class Ideas(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(255))
     description = Column(String)
+    content = Column(String)
     user = relationship('User', back_populates='ideas')
     user_id = Column(Integer, ForeignKey('users.id'))
     fork = Column(Integer, ForeignKey('ideas.id'), default=None)
