@@ -78,6 +78,7 @@ def create_idea(request: Request, title: str, description: str):
     session.close()
     return idea
 
+# 検索を行うエンドポイント
 @app.post("/api/search")
 def search_ideas(keyword: str):
     return_ideas = []
@@ -88,7 +89,7 @@ def search_ideas(keyword: str):
     
     return return_ideas
 
-# ログイン処理を行うエン���ポイント
+# ログイン処理を行うエンドポイント
 @app.post("/api/login")
 def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
     session = SessionLocal()
