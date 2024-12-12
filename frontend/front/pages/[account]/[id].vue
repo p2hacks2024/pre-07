@@ -6,7 +6,7 @@
             <span>{{ username }}</span> <!-- ユーザーIDを表示 -->
         </div>
     <main class="content">
-        <p>サンプル本文5000兆円ほしいああああああああああああああああああああ</p>
+        <p>{{ content }}</p>
     </main>
     <bottom>
         <img src="assets/comment.png" alt="comment" >
@@ -30,7 +30,7 @@ export default {
         const response = await fetch(`http://10.124.75.43:8000/api/ideas/${this.$route.params.id}`)
         const data = await response.json()
         this.title = data.idea.title
-        this.fork = data.idea.fork
+        this.content = data.idea.content
         this.username = data.username
     },
 }
