@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, ForeignKey
 from sqlalchemy.schema import Column
-from sqlalchemy.types import Integer, String, DateTime
+from sqlalchemy.types import Integer, String, DateTime, LargeBinary
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 import datetime
@@ -28,6 +28,7 @@ class Ideas(Base):
     user_id = Column(Integer, ForeignKey('users.id'))
     tags = relationship('Tags', back_populates='idea')
     create_at = Column(DateTime, default=datetime.datetime.now)
+    image = Column(LargeBinary)  # 画像ファイルを保存するためのカラムを追加
     
     def __repr__(self):
         return f"{self.id}: {self.title} ({self.description})"

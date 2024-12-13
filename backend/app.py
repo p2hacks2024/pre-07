@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, File, UploadFile
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
@@ -33,7 +33,7 @@ def read_root():
 def read_user(username: str):
     session = SessionLocal()
     user = session.query(User).filter(User.name == username).first()
-    ideas = session.query(Ideas).filter(Ideas.user_id == user.id).all()
+    ideas = session.query(Ideas).filter(Ideas.user_id == user.user_id).all()
     ideas_id = [idea.id for idea in ideas]
     session.close()
     return {"user": user, "ideas": ideas_id}
@@ -62,14 +62,15 @@ def read_idea(id: int):
 
 # アイデアを作成するエンドポイント
 @app.post("/api/idea")
-def create_idea(request: Request, title: str, description: str):
+def create_idea(request: Request, title: str, description: str, file: UploadFile = File(None)):
     user_id = request.session.get('user_id')
     session = SessionLocal()
-    idea = Ideas(title=title, description=description, user_id=user_id)
+    image_data = file.file.read() if file else None  # ファイルがある場合のみ読み込む
+    idea = Ideas(title=title, description=description, user_id=user_id, image=image_data)
     session.add(idea)
     session.commit()
     session.close()
-    return idea
+    return {"message": "Idea created successfully"}
 
 # 検索を行うエンドポイント
 @app.get("/api/search")
