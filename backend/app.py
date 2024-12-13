@@ -72,7 +72,7 @@ def create_idea(request: Request, title: str, description: str):
     return idea
 
 # 検索を行うエンドポイント
-@app.post("/api/search")
+@app.get("/api/search")
 def search_ideas(keyword: str):
     return_ideas = []
     session = SessionLocal()
