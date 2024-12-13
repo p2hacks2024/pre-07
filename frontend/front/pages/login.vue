@@ -32,7 +32,7 @@ export default {
         return {
             username: '',
             password: '',
-            loginError: false
+            loginError: false,
         };
     },
     methods: {
@@ -47,6 +47,8 @@ export default {
                     body: formData
                 });
                 if (response.ok) {
+                    const message1 = await response.json();
+                    console.log(message1.message);
                     this.$router.push('/home');
                 } else {
                     const errorData = await response.json();
@@ -68,6 +70,7 @@ export default {
     align-items: center;
     height: 100vh;
 }
+
 .form-container {
     background: #fff;
     padding: 20px;
