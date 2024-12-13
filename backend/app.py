@@ -8,12 +8,12 @@ from starlette.requests import Request
 from starlette.middleware.cors import CORSMiddleware 
 
 app = FastAPI()
-app.add_middleware(SessionMiddleware, secret_key="your-secret-key")
+app.add_middleware(SessionMiddleware, secret_key="your-secret-key", same_site="none", max_age=3600, https_only=True )
 
 # CORSの設定
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"],  # 特定のオリジンを許可
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -85,10 +85,14 @@ def search_ideas(keyword: str):
 @app.get("/api/palette")
 def get_palette(request: Request):
     user_id = request.session.get('user_id')
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Not authenticated")
     session = SessionLocal()
     palettes = session.query(Palettes).filter(Palettes.user_id == user_id).all()
     ideas = session.query(Ideas).filter(Ideas.user_id == user_id).all()
     session.close()
+    username = request.session.get('username')
+    
     return sorted([palette.idea_id for palette in palettes] + [idea.id for idea in ideas])
 
 # ログイン処理を行うエンドポイント
@@ -107,6 +111,7 @@ def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
 # ログイン中のユーザー情報を取得するエンドポイント
 @app.get("/api/me")
 def read_me(request: Request):
+    print(request.cookies)
     username = request.session.get('username')
     if not username:
         raise HTTPException(status_code=401, detail="Not authenticated")
