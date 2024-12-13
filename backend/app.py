@@ -28,36 +28,15 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 def read_root():
     return {"Hello": "World"}
 
-# 特定のユーザー情報を取得するエンドポイント
+# 特定のユーザー情報とそのユーザーのアイデアを取得するエンドポイント
 @app.get("/api/user/{username}")
 def read_user(username: str):
     session = SessionLocal()
     user = session.query(User).filter(User.name == username).first()
+    ideas = session.query(Ideas).filter(Ideas.user_id == user.id).all()
+    ideas_id = [idea.id for idea in ideas]
     session.close()
-    return user
-
-# もしidが文字列なら特定のユーザーが作成したアイデア一覧を取得するエンドポイント
-# 数字なら特定のアイデアを取得するエンドポイント
-@app.get("/api/ideas/{id}")
-def read_user_ideas(id: str):
-    if id.isdigit():
-        idea_id = int(id)
-        session = SessionLocal()
-        idea = session.query(Ideas).filter(Ideas.id == idea_id).first()
-        if not idea:
-            session.close()
-            raise HTTPException(status_code=404, detail="Idea not found")
-        tags = session.query(Tags).filter(Tags.idea_id == idea_id).all()
-        username = session.query(User).filter(User.id == idea.user_id).first().name
-        session.close()
-        return {"idea": idea, "username": username, "tags": tags}
-    else:
-        username = id
-        session = SessionLocal()
-        user_id = session.query(User).filter(User.name == username).first().id
-        ideas = session.query(Ideas).filter(Ideas.user_id == user_id).all()
-        session.close()
-        return [idea.id for idea in ideas]
+    return {"user": user, "ideas": ideas_id}
 
 # アイデア一覧を取得するエンドポイント
 @app.get("/api/ideas")
@@ -66,6 +45,20 @@ def get_ideas():
     ideas = session.query(Ideas.id).all()
     session.close()
     return [idea.id for idea in ideas]
+
+# idでアイデアを取得
+@app.get("/api/idea/{id}")
+def read_idea(id: str):
+    idea_id = int(id)
+    session = SessionLocal()
+    idea = session.query(Ideas).filter(Ideas.id == idea_id).first()
+    if not idea:
+        session.close()
+        raise HTTPException(status_code=404, detail="Idea not found")
+    tags = session.query(Tags).filter(Tags.idea_id == idea_id).all()
+    username = session.query(User).filter(User.id == idea.user_id).first().name
+    session.close()
+    return {"idea": idea, "username": username, "tags": tags}
 
 # アイデアを作成するエンドポイント
 @app.post("/api/idea")
