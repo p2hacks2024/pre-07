@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from models.models import Base, Ideas, User, Tags
+from models.models import Base, User, Ideas, Tags, Palettes, Goods
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.requests import Request
 from starlette.middleware.cors import CORSMiddleware 
@@ -81,6 +81,14 @@ def search_ideas(keyword: str):
     return_ideas = [idea.id for idea in ideas]
     
     return return_ideas
+
+@app.get("/api/palette")
+def get_palette(request: Request):
+    user_id = request.session.get('user_id')
+    session = SessionLocal()
+    palettes = session.query(Palettes).filter(Palettes.user_id == user_id).all()
+    session.close()
+    return [palette.idea_id for palette in palettes]
 
 # ログイン処理を行うエンドポイント
 @app.post("/api/login")
