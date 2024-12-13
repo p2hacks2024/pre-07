@@ -1,7 +1,8 @@
 import sqlite3
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models.models import Base, User, Ideas, Tags
+from models.models import *
+import time
 
 DATABASE_URL = "sqlite:///db.sqlite3"
 engine = create_engine(DATABASE_URL)
@@ -26,12 +27,12 @@ session.commit()
 # アイデアの追加
 idea1 = Ideas(title="Idea 1", description="Description for idea 1", user=user1, content="5000兆円欲しい")
 idea2 = Ideas(title="Idea 2", description="Description for idea 2", user=user2, content="5000兆円欲しい")
-idea3 = Ideas(title="Idea 3", description="Description for idea 3", user=user3, fork=idea1.id, content="5000兆円欲しい"*50)
-idea4 = Ideas(title="Idea 4", description="Description for idea 4", user=user1, fork=idea2.id, content="5000兆円欲しい")
-idea5 = Ideas(title="Idea 5", description="Description for idea 5", user=user2, fork=idea3.id, content="5000兆円欲しい")
-idea6 = Ideas(title="Idea 6", description="Description for idea 6", user=user3, fork=idea4.id, content="5000兆円欲しい")
-idea7 = Ideas(title="Idea 7", description="Description for idea 7", user=user1, fork=idea5.id, content="5000兆円欲しい")
-idea8 = Ideas(title="Idea 8", description="Description for idea 8", user=user2, fork=idea6.id, content="5000兆円欲しい8")
+idea3 = Ideas(title="Idea 3", description="Description for idea 3", user=user3, content="5000兆円欲しい"*50)
+idea4 = Ideas(title="Idea 4", description="Description for idea 4", user=user1, content="5000兆円欲しい")
+idea5 = Ideas(title="Idea 5", description="Description for idea 5", user=user2, content="5000兆円欲しい")
+idea6 = Ideas(title="Idea 6", description="Description for idea 6", user=user3, content="5000兆円欲しい")
+idea7 = Ideas(title="Idea 7", description="Description for idea 7", user=user1, content="5000兆円欲しい")
+idea8 = Ideas(title="Idea 8", description="Description for idea 8", user=user2, content="5000兆円欲しい8")
 session.add(idea1)
 session.add(idea2)
 session.add(idea3)
@@ -49,6 +50,13 @@ idea2.tags.append(Tags(tag="tag3"))
 session.commit()
 
 
+palette1 = Palettes(user=user1, idea=idea2)
+palette2 = Palettes(user=user1, idea=idea3)
+palette3 = Palettes(user=user1, idea=idea5)
+session.add(palette1)
+session.add(palette2)
+session.add(palette3)
+session.commit()
 
 # セッションのクローズ
 session.close()

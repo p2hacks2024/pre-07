@@ -3,6 +3,7 @@ from sqlalchemy.schema import Column
 from sqlalchemy.types import Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+import datetime
 
 Base = declarative_base()
 
@@ -25,11 +26,22 @@ class Ideas(Base):
     content = Column(String)
     user = relationship('User', back_populates='ideas')
     user_id = Column(Integer, ForeignKey('users.id'))
-    fork = Column(Integer, ForeignKey('ideas.id'), default=None)
     tags = relationship('Tags', back_populates='idea')
+    create_at = Column(DateTime, default=datetime.datetime.now)
     
     def __repr__(self):
         return f"{self.id}: {self.title} ({self.description})"
+
+class Palettes(Base):
+    __tablename__ = 'palettes'
+    id = Column(Integer, primary_key=True)
+    user = relationship('User')
+    user_id = Column(Integer, ForeignKey('users.id'))
+    idea = relationship('Ideas')
+    idea_id = Column(Integer, ForeignKey('ideas.id'))
+    
+    def __repr__(self):
+        return f"{self.id}: {self.color}"
 
 class Tags(Base):
     __tablename__ = 'tags'
