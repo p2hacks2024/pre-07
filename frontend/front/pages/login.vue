@@ -44,7 +44,8 @@ export default {
 
                 const response = await fetch(endpoint + 'login', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    credentials: 'include'
                 });
                 if (response.ok) {
                     this.$router.push('/home');
