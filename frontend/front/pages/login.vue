@@ -47,8 +47,6 @@ export default {
                     body: formData
                 });
                 if (response.ok) {
-                    const message1 = await response.json();
-                    console.log(message1.message);
                     this.$router.push('/home');
                 } else {
                     const errorData = await response.json();
