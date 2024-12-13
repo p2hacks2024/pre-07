@@ -82,7 +82,6 @@ export default {
         const response = await fetch(endpoint+`idea/${this.id}`, {
         })
         const data = await response.json()
-        console.log(data)
         this.title = data.idea.title
         this.description = data.idea.description
         this.username = data.username
