@@ -48,8 +48,8 @@ def get_ideas():
 
 # idでアイデアを取得
 @app.get("/api/idea/{id}")
-def read_idea(id: str):
-    idea_id = int(id)
+def read_idea(id: int):
+    idea_id = id
     session = SessionLocal()
     idea = session.query(Ideas).filter(Ideas.id == idea_id).first()
     if not idea:
