@@ -87,8 +87,9 @@ def get_palette(request: Request):
     user_id = request.session.get('user_id')
     session = SessionLocal()
     palettes = session.query(Palettes).filter(Palettes.user_id == user_id).all()
+    ideas = session.query(Ideas).filter(Ideas.user_id == user_id).all()
     session.close()
-    return [palette.idea_id for palette in palettes]
+    return sorted([palette.idea_id for palette in palettes] + [idea.id for idea in ideas])
 
 # ログイン処理を行うエンドポイント
 @app.post("/api/login")
