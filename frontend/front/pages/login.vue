@@ -32,7 +32,7 @@ export default {
         return {
             username: '',
             password: '',
-            loginError: false
+            loginError: false,
         };
     },
     methods: {
@@ -68,6 +68,7 @@ export default {
     align-items: center;
     height: 100vh;
 }
+
 .form-container {
     background: #fff;
     padding: 20px;
