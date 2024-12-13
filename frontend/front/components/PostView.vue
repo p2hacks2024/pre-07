@@ -80,11 +80,6 @@ export default {
     },  
     async created() {
         const response = await fetch(endpoint+`idea/${this.id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: this.id })
         })
         const data = await response.json()
         this.title = data.idea.title
