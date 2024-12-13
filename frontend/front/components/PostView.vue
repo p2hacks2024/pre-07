@@ -79,7 +79,7 @@ export default {
         }
     },  
     async created() {
-        const response = await fetch(endpoint+`ideas/${this.id}`)
+        const response = await fetch(endpoint+`idea/${this.id}`)
         const data = await response.json()
         this.title = data.idea.title
         this.description = data.idea.description
