@@ -6,7 +6,7 @@
         <a href="#">
             <img src="@/assets/folder.png" alt="folder" />
         </a>
-        <a href="#">
+        <a href="/search">
             <img src="@/assets/search.png" alt="search" />
         </a>
         <a href="#">

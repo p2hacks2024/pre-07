@@ -1,6 +1,11 @@
 <template>
     <div class="search">
-        <input type="text" :placeholder="textMessage">
+        <input
+        type="text"
+        id="serchText"
+        :placeholder="textMessage"
+        v-model="searchText"
+        >
     </div>
 </template>
 
@@ -10,8 +15,16 @@ export default {
         textMessage: {
             type: String,
             default: ''
+        },
+    },
+    data () {
+        return {
+            searchText: {
+                type: String,
+                default: ''
+            },
         }
-    }
+    },
 }
 </script>
 
