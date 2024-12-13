@@ -123,9 +123,8 @@ p a:hover {
     background-color: #D9D9D9;
     border-radius: 15px;
     box-sizing: border-box;
-    text-decoration-color: #B0B0B0;
     text-align: center;
-    color: #B0B0B0;
+    color: #000000;
 }
 
 .button-container {
