@@ -1,1 +1,2 @@
-export const endpoint = `https://10.124.75.43:8000/api/`;
+export const endpoint = `https://p2hacks.ict-lab.org/api/`;
+
