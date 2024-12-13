@@ -29,7 +29,7 @@ export default {
         }
     },
     async created() {
-        const response = await fetch(endpoint + `ideas/${this.$route.params.id}`)
+        const response = await fetch(endpoint + `idea/${this.$route.params.id}`)
         const data = await response.json()
         this.title = data.idea.title
         this.content = data.idea.content

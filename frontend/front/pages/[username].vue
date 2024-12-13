@@ -13,11 +13,8 @@ export default {
         const response = await fetch(endpoint + `user/${this.$route.params.username}`)
         const data = await response.json()
         console.log(data)
-        this.name = data.name
-        const ideas = await fetch(endpoint + `ideas/${data.name}`)
-        const ideaData = await ideas.json()
-        console.log(ideaData)
-        this.ideaData = ideaData // 変更
+        this.name = data.user.name
+        this.ideaData = data.ideas // 変更
     },
 }
 
