@@ -63,11 +63,12 @@ p{
     margin-top: 50px;
 }
 .timeLine {
-    padding: 10px;
-    background-color: #ffffff;
+    background-color: #f3f3f3;
+    display:flex;
+    flex-wrap:wrap;
 }
 .postContents {
-    width: flex;
+    width: 50%;
 }
 .postView {
     margin: 5%;
@@ -78,7 +79,7 @@ p{
 .search {
     text-align: center;
     margin: 5%;
-    margin-top: 100px; /* ヘッダーにかぶらないようにマージンを追加 */
+
 }
 .search input {
     font-size: 16px;

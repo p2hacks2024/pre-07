@@ -1,8 +1,6 @@
 <script>
 import PostView from '@/components/PostView.vue'
 import { endpoint } from '~/components/APIEndPoint';
-import MovePostviewButton from '~/components/movePostviewButton.vue';
-import movePostviewButton from '~/components/movePostviewButton.vue';
 
 export default {
     data() {
@@ -19,7 +17,6 @@ export default {
 </script>
 
 <template>
-    <MovePostviewButton />
     <div class="timeLine">
         <div v-for="id in ids" :key="id" class="postContents">
             <PostView class="postView" :id="id"/>
@@ -30,7 +27,12 @@ export default {
 <style scoped>
 .timeLine {
     padding: 10px;
-    background-color: #ffffff;
+    background-color: #f3f3f3;
+    display:flex;
+    flex-wrap:wrap;
+}
+.postContents {
+    width: 50%;
 }
 .postView {
     margin: 5%;

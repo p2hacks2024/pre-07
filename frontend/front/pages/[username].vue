@@ -50,11 +50,12 @@ h1 {
 }
 .timeLine {
     padding: 10px;
-    background-color: #ffffff;
+    background-color: #f3f3f3;
+    display:flex;
     flex-wrap:wrap;
 }
 .postContents {
-    width: flex;
+    width: 50%;
 }
 .postView {
     margin: 5%;
