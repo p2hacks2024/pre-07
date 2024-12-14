@@ -1,6 +1,7 @@
 <script setup lang="ts"></script>
 <template>
     <div>
+        <NuxtPwaManifest />
         <NuxtPage />
         <Footer class="footer" />
     </div>
