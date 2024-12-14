@@ -10,16 +10,20 @@ export default {
             rotate_angle: 0,
             isMixMode: false,
             showPlalette: false,
-            radius: 100,
+            radius: 120,
             palette_data : {
                 title: '',
                 content: '',
             },
+            apiResult: '', // 追加
+            apiImage: '', // 追加
+            endpoint: endpoint,
+            isLoading: false // 追加
         }
     },
     methods: {
-        handleItemClick(item, title) {
-            this.selectedItems.push({ item, title });
+        handleItemClick(item, title, description) {
+            this.selectedItems.push({ item, title, description});
             console.log(this.selectedItems);
         },
         getCirclePosition(index, total)  {
@@ -32,9 +36,28 @@ export default {
                 top: `calc(50% + ${y}px)` 
             }
         },
-        handleMixMode() {
+        async handleMixMode() {
             console.log('mix mode')
             this.isMixMode = true
+            this.isLoading = true; // 追加
+
+            // selectedItemsのtitleとdescriptionをカンマ区切りの文字列にして出力
+            const itemsString = this.selectedItems.map(item => `${item.title}%2C${item.description}`).join('%2C');
+            console.log(itemsString);
+
+            try {
+                const response = await fetch(endpoint+'mix?keyword='+itemsString, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                this.apiResult = data.message; // 取得したデータをapiResultに格納
+                this.apiImage = data.image; // 取得したデータをapiImageに格納
+            } catch (error) {
+                console.error('API fetch error:', error);
+            } finally {
+                this.isLoading = false; // 追加
+            }
         },
     },
     async created() {
@@ -64,12 +87,21 @@ export default {
 <template>
     <div class="timeLine">
         <div v-for="id in ids" :key="id" class="postContents">
-            <SelectPostView class="postView" :id="id" @item-click="handleItemClick(id, $event)"/>
+            <SelectPostView class="postView" :id="id" @item-click="handleItemClick"/>
         </div>
         <div :class="{ 'overlay': isMixMode }"></div>
 
         <div class="palette" :class="{'palette-show': showPlalette}">
-            
+            <div v-if="isLoading">Generating...</div> <!-- 追加 -->
+            <div v-else>
+                <img :src="`${endpoint}image/${apiImage}`" alt="palette" />
+                <div class="palette-text">
+                    <p>{{ apiResult }}</p>
+                </div>
+                <div class="regenerate" @click="handleMixMode">
+                    再生成
+                </div>
+            </div>
         </div>
 
         <div class="circle" :class="{ 'center-move': isMixMode }">
@@ -94,14 +126,31 @@ export default {
 .palette-show {
     display: block;
     position: fixed;
-    top: 10%;
+    top: 8%;
     left: 10%;
     width: 70%;
     max-height: 80%;
     background-color: rgb(255, 255, 255);
-    z-index: 10;
-    border-radius: 20px;
+    z-index: 12;
+    border-radius: 10px;
     padding: 5%;
+    word-break: break-all;
+}
+.palette img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+.palette .palette-text {
+    max-height: 270px; /* 追加: 最大高さを設定 */
+    overflow-y: auto; /* 追加: スクロール可能にする */
+}
+.regenerate {
+    margin-top: 20px;
+    padding: 10px 30px ;
+    border-radius: 10px;
+    float: right;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.462);
 }
 .overlay {
     position: fixed;

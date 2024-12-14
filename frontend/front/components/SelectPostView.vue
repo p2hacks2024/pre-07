@@ -86,7 +86,7 @@ export default {
     },
     methods: {
         emitItemClick() {
-            this.$emit('item-click', this.title);
+            this.$emit('item-click', this.id, this.title, this.description);
         }
     }
 }
