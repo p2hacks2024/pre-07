@@ -1,0 +1,15 @@
+curl -X POST 'https://dify.ict-lab.org/v1/chat-messages' \
+--header 'Authorization: Bearer app-LtocDiZ6vKnoB0QT7KwVUuKn' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "inputs": {
+        "idea_1_title":"夏は暑い",
+        "idea_1_details":"夏が暑すぎるので外を歩き回るのがつらいのをどうにかしたい",
+        "idea_2_title":"扇風機",
+        "idea_2_details":"夏の定番アイテム"
+    },
+    "query": " ",
+    "response_mode": "blocking",
+    "conversation_id": "",
+    "user": "abc-123"
+}'
