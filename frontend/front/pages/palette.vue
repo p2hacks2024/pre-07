@@ -15,7 +15,8 @@ export default {
                 title: '',
                 content: '',
             },
-            apiResult: '', // 追加
+            apititle: '', // 追加
+            apidetail: '', // 追加
             apiImage: '', // 追加
             endpoint: endpoint,
             isLoading: false // 追加
@@ -51,7 +52,8 @@ export default {
                     credentials: 'include'
                 });
                 const data = await response.json();
-                this.apiResult = data.message; // 取得したデータをapiResultに格納
+                this.apititle = data.title; // 取得したデータをapiResultに格納
+                this.apidetail = data.detail; // 取得したデータをapiResultに格納
                 this.apiImage = data.image; // 取得したデータをapiImageに格納
             } catch (error) {
                 console.error('API fetch error:', error);
@@ -100,7 +102,8 @@ export default {
             <div v-else>
                 <img :src="`${endpoint}image/${apiImage}`" alt="palette" />
                 <div class="palette-text">
-                    <p>{{ apiResult }}</p>
+                    <h2>{{ apititle }}</h2>
+                    <p>{{ apidetail }}</p>
                 </div>
                 <div class="regenerate" @click="handleMixMode">
                     再生成
