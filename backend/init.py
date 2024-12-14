@@ -16,9 +16,9 @@ Base.metadata.create_all(bind=engine)  # 新しいテーブルを作成
 session = SessionLocal()
 
 # ユーザーの追加
-user1 = User(name="test", password="aaa",email="test@example.com")
-user2 = User(name="Neko Lovers", password="aaa", email="test2@exampe.com")
-user3 = User(name="Accord33", password="aaa", email="test3@example.com")
+user1 = User(name="test", password="aaa")
+user2 = User(name="Neko Lovers", password="aaa")
+user3 = User(name="Accord33", password="aaa")
 session.add(user1)
 session.add(user2)
 session.add(user3)
