@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import { endpoint } from '~/components/APIEndPoint';
 export default {
     data() {
         return {
