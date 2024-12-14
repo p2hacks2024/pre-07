@@ -1,22 +1,53 @@
 <template>
     <div>
         <a href="/home">
-            <img src="@/assets/home.png" alt="home" />
+            <img v-if="home" src="@/assets/home.png" alt="home" />
+            <img v-else src="@/assets/home2.png" alt="home" />
         </a>
         <a href="#">
-            <img src="@/assets/folder.png" alt="folder" />
+            <img v-if="folder" src="@/assets/folder.png" alt="folder" />
+            <img v-else src="@/assets/folder2.png" alt="folder" />
         </a>
         <a href="/search">
-            <img src="@/assets/search.png" alt="search" />
+            <img v-if="search" src="@/assets/search.png" alt="search" />
+            <img v-else src="@/assets/search2.png" alt="search" />
         </a>
         <a href="#">
-            <img src="@/assets/brain.png" alt="brain" />
+            <img v-if="brain" src="@/assets/brain.png" alt="brain" />
+            <img v-else src="@/assets/brain2.png" alt="brain" />
         </a>
         <a href="#">
-            <img src="@/assets/human.png" alt="human" />
+            <img v-if="human" src="@/assets/human.png" alt="human" />
+            <img v-else src="@/assets/human2.png" alt="human" />
         </a>
     </div>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            home: false,
+            folder: false,
+            search: false,
+            brain: false,
+            human: false
+        }
+    },
+    mounted() {
+        if (this.$route.path === '/home') {
+            this.home = true
+        } else if (this.$route.path === '/folder') {
+            this.folder = true
+        } else if (this.$route.path === '/search') {
+            this.search = true
+        } else if (this.$route.path === '/brain') {
+            this.brain = true
+        } else if (this.$route.path === '/human') {
+            this.human = true
+        }
+    }
+}
+</script>
 <style scoped>
 div {
     display: flex;
