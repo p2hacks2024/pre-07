@@ -4,7 +4,7 @@
             <img v-if="home" src="@/assets/home.png" alt="home" />
             <img v-else src="@/assets/home2.png" alt="home" />
         </a>
-        <a href="#">
+        <a href="/palette">
             <img v-if="folder" src="@/assets/folder.png" alt="folder" />
             <img v-else src="@/assets/folder2.png" alt="folder" />
         </a>
@@ -76,7 +76,7 @@ div {
     position: fixed;
     bottom: 0px;
     width: 85%;
-    z-index: 1000;
+    z-index: 10;
 }
 
 img {
