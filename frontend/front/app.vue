@@ -6,6 +6,7 @@
         <Header />
         <div class="space"></div>
         <NuxtPage />
+        <div class="space"></div>
         <Footer class="footer" />
     </div>
 </template>
