@@ -7,7 +7,7 @@
             <span>{{ username }}</span>
         </router-link>
         <div class="content">
-            <p>{{ content }}</p>
+            <p>{{ description }}</p>
         </div>
         <div class="bottom">
             <img src="assets/comment.png" alt="comment">
@@ -27,7 +27,7 @@ export default {
             title: '',
             fork: null,
             username: null,
-            content: '',
+            description: '',
             imagefaile: null,
             endpoint: endpoint
         }
@@ -37,7 +37,7 @@ export default {
                 const data = await response.json();
                 this.title = data.idea.title;
                 this.username = data.username;
-                this.content = data.idea.content;
+                this.description = data.idea.description;
                 this.imagefilename = data.idea.image;
     }
 };

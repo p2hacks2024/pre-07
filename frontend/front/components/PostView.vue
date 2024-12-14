@@ -4,7 +4,7 @@
             <img v-if="imagefilename" :src="`${endpoint}image/${imagefilename}`">
             <div class="contents">
                 <h1>{{ title }}</h1>
-                <p>{{ description }}</p>
+                <p>{{ truncatedDescription }}</p>
             </div>
             <div class="account">
                 <div class="icon"></div>
@@ -70,9 +70,14 @@ export default {
     data() {
         return {
             title: '',
-            description: '',
+            description:'',
             username: '',
             endpoint: endpoint
+        }
+    },
+    computed: {
+        truncatedDescription() {
+            return this.description.length > 40 ? this.description.substring(0, 40) + '...' : this.description;
         }
     },
     async created() {
