@@ -3,7 +3,7 @@
         <a href="/home">
             <img src="@/assets/home.png" alt="home" />
         </a>
-        <a href="#">
+        <a href="/palette">
             <img src="@/assets/folder.png" alt="folder" />
         </a>
         <a href="/search">
@@ -27,7 +27,7 @@ div {
     position: fixed;
     bottom: 0px;
     width: 85%;
-    z-index: 1000;
+    z-index: 10;
 }
 
 img {
