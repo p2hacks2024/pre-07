@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^0.7.3",
+    "eslint": "^9.16.0"
   }
 }
