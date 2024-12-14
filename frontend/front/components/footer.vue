@@ -16,22 +16,41 @@
             <img v-if="brain" src="@/assets/brain.png" alt="brain" />
             <img v-else src="@/assets/brain2.png" alt="brain" />
         </a>
-        <a href="#">
+        <a :href="'/' + me">
             <img v-if="human" src="@/assets/human.png" alt="human" />
             <img v-else src="@/assets/human2.png" alt="human" />
         </a>
     </div>
 </template>
+
 <script>
+import { endpoint } from '~/components/APIEndPoint';
+
 export default {
     data() {
         return {
+            me : '',
             home: false,
             folder: false,
             search: false,
             brain: false,
             human: false
         }
+    },
+    methods: {
+        async fetchData() {
+            const response = await fetch(endpoint + 'me',
+                {
+                    credentials: 'include'
+                }
+            );
+            const data = await response.json();
+            this.me = data.username;
+            console.log(this.me);
+        }
+    },
+    created() {
+        this.fetchData();
     },
     mounted() {
         if (this.$route.path === '/home') {
@@ -48,6 +67,7 @@ export default {
     }
 }
 </script>
+
 <style scoped>
 div {
     display: flex;
