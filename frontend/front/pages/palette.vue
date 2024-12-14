@@ -33,7 +33,7 @@ export default {
             const y = Math.sin((angle * Math.PI) / 180) * this.radius
             return {
                 left: `calc(50% + ${x}px)`,
-                top: `calc(50% + ${y}px)` 
+                top: `calc(50% + ${y}px)`
             }
         },
         async handleMixMode() {
@@ -166,7 +166,7 @@ export default {
     z-index: 10;
 }
 .postContents {
-    width: 50%;
+    width: 100%;
 }
 
 .postView {

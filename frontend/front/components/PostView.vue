@@ -1,5 +1,5 @@
 <template>
-    <a :href="`/test/${id}`">
+    <a :href="`/idea/${id}`">
         <div class="postView">
             <img v-if="imagefilename" :src="`${endpoint}image/${imagefilename}`">
             <div class="contents">
