@@ -16,8 +16,8 @@
             <img v-if="brain" src="@/assets/brain.png" alt="brain" />
             <img v-else src="@/assets/brain2.png" alt="brain" />
         </a>
-        <a :href="'/' + me">
-            <img v-if="human" src="@/assets/human.png" alt="human" />
+        <a :href="islogin ? '/' + me : '/login'">
+            <img v-if="islogin" src="@/assets/human.png" alt="human" />
             <img v-else src="@/assets/human2.png" alt="human" />
         </a>
     </div>
@@ -30,6 +30,7 @@ export default {
     data() {
         return {
             me : '',
+            islogin: false,
             home: false,
             folder: false,
             search: false,
@@ -45,7 +46,10 @@ export default {
                 }
             );
             const data = await response.json();
-            this.me = data.username;
+                this.me = data.username;
+            if(data.detail==="Success"){
+                this.islogin = true;
+            }
 
             if (this.$route.path === '/home') {
                 this.home = true
