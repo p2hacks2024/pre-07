@@ -7,7 +7,7 @@
 .circle {
     width: 80px;
     height: 80px;
-    background-color: #ffff00;
+    background-color: #fff7a1;
     border-radius: 50%;
     position: fixed;
     right: 25px;
