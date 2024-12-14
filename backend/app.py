@@ -11,14 +11,15 @@ from fastapi.responses import FileResponse
 import requests
 import re
 from typing import Optional
+import random
 
 app = FastAPI()
-app.add_middleware(SessionMiddleware, secret_key="your-secret-key", same_site="none", max_age=3600, https_only=True , session_cookie="session")
+app.add_middleware(SessionMiddleware, secret_key="iu4hfwieufhlaiuhldsufhalsufhlsd", same_site="none", max_age=3600, https_only=True , session_cookie="session")
 
 # CORSの設定
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://p2hacks2024.pages.dev", "https://accord33-fix-credentialerror.p2hacks2024.pages.dev", "https://p2hacks2024.accord33.org"],  # 特定のオリジンを許可
+    allow_origins=["http://localhost:3000", "https://p2hacks2024.pages.dev", "https://accord33-feature-pwa.p2hacks2024.pages.dev", "https://p2hacks2024.accord33.org"],  # 特定のオリジンを許可
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -38,6 +39,9 @@ def read_root():
 def read_user(username: str):
     session = SessionLocal()
     user = session.query(User).filter(User.name == username).first()
+    if not user:
+        session.close()
+        raise HTTPException(status_code=404, detail="User not found")
     ideas = session.query(Ideas).filter(Ideas.user_id == user.id).all()
     ideas_id = [idea.id for idea in ideas]
     session.close()
@@ -74,12 +78,16 @@ def create_idea(request: Request, title:str = Form(None), description: str = For
         return {"message": "Please login first", "result": "Error"}
     session = SessionLocal()
     image_path = None
-    print(file )
-    if file and isinstance(file, UploadFile):
-        image_path = f"{user_id}-{file.filename}-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.png"
+    print(file.filename)
+    
+    if file.content_type not in ["image/jpeg", "image/png"]:
+        raise HTTPException(status_code=400, detail="Unsupported file type. Only JPEG, PNG are allowed.")
+    
+    if file:
+        image_path = f"{user_id}-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}-{file.filename}"
         with open("images/"+image_path, "wb") as image_file:
             image_file.write(file.file.read())
-    idea = Ideas(title=title, description=description, user_id=user_id, image=image_path)
+    idea = Ideas(title=title, description=description, content=description, user_id=user_id, image=image_path)
     session.add(idea)
     session.commit()
     return {"message": "Idea created successfully", "idea_id": idea.id}                                 
@@ -99,6 +107,16 @@ def keep_idea(request: Request, idea_id: int):
     session.close()
     return {"message": "Idea kept successfully"}
 
+@app.get("/api/user/keep/{idea_id}")
+def get_kept_ideas(request: Request, idea_id: int):
+    user_id = request.session.get('user_id')
+    session = SessionLocal()
+    ideas = session.query(Palettes).filter(Palettes.user_id == user_id).filter(Palettes.idea_id == idea_id).all()
+    session.close()
+    if ideas:
+        return {"result": "Success"}
+    else:
+        return {"result": "Error"}
 
 # 検索を行うエンドポイント
 @app.get("/api/search")
@@ -217,7 +235,7 @@ def signup(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
     if user:
         session.close()
         raise HTTPException(status_code=400, detail="Username already exists")
-    user = User(name=form_data.username, password=form_data.password)
+    user = User(name=form_data.username, password=form_data.password, colorR=random.randint(0, 255), colorG=random.randint(0, 255), colorB=random.randint(0, 255))
     session.add(user)
     session.commit()
     session.close()

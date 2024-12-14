@@ -13,6 +13,9 @@ class User(Base):
     name = Column(String(255))
     password = Column(String(255))
     ideas = relationship('Ideas', back_populates='user')
+    colorR = Column(Integer)
+    colorG = Column(Integer)
+    colorB = Column(Integer)
 
     def __repr__(self):
         return f"{self.id}: {self.name} ({self.email})"
