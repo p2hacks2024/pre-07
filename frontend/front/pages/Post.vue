@@ -82,12 +82,14 @@ export default {
             }
 
             const formData = new FormData();
+            formData.append('title', this.idea.name);
+            formData.append('description', this.idea.description);
             if (this.uploadedImage) {
                 const blob = this.dataURLtoBlob(this.uploadedImage);
                 formData.append('file', blob, 'uploaded-image.png');
             }
 
-            fetch('https://p2hacks.ict-lab.org/api/idea?title='+this.idea.name+"&description="+this.idea.description, {
+            fetch(endpoint+'idea', {
                 method: 'POST',
                 headers: {
                     'accept': 'application/json',
