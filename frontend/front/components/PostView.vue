@@ -1,5 +1,5 @@
 <template>
-    <a :href="`/idea/${id}`">
+    <a :href="`/test/${id}`">
         <div class="postView">
             <img v-if="imagefilename" :src="`${endpoint}image/${imagefilename}`">
             <div class="contents">
@@ -7,7 +7,7 @@
                 <p>{{ truncatedDescription }}</p>
             </div>
             <div class="account">
-                <div class="icon"></div>
+                <Icon :username="username"></Icon>
                 <p>{{ username }}</p>
             </div>
 
@@ -15,6 +15,7 @@
     </a>
 </template>
 <style scoped>
+
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap');
 /* font-family: "Zen Kaku Gothic New", sans-serif; */
 a {
@@ -51,14 +52,18 @@ h1 {
     padding: 3px 30px 10px 30px;
     border-top: 1px solid #dcdcdc;
     margin-top: 5px;
+    display: flex;
+    align-items: center;
 }
 .account p {
     margin: 0px;
+    margin-left: 10px;
 }
 </style>
 
 <script>
 import{endpoint} from '~/components/APIEndPoint'
+import Icon from '~/components/Icon.vue';
 
 export default {
     props: {

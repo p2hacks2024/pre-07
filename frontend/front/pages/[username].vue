@@ -1,11 +1,10 @@
 <script>
 import { endpoint } from '~/components/APIEndPoint';
-
+import Icon from '~/components/Icon.vue';
 export default {
     data() {
         return {
             Id: null,
-            name: null,
             ideaData: [] // 追加
         }
     },
@@ -15,6 +14,7 @@ export default {
         console.log(data)
         this.name = data.user.name
         this.ideaData = data.ideas // 変更
+        console.log(this.name)
     },
 }
 
@@ -22,7 +22,7 @@ export default {
 <template>
     <div>
         <div class="top">
-            <div class="icon"></div>
+            <Icon :username="this.name"></Icon>
             <h1>{{ name }}</h1>
         </div>
         <div class="timeLine">
