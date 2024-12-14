@@ -87,7 +87,7 @@ export default {
                 formData.append('file', blob, 'uploaded-image.png');
             }
 
-            fetch('https://p2hacks.ict-lab.org/api/idea?title='+this.idea.name+"&description="+this.idea.description, {
+            fetch(endpoint+'idea?title='+this.idea.name+"&description="+this.idea.description, {
                 method: 'POST',
                 headers: {
                     'accept': 'application/json',
