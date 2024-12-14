@@ -63,7 +63,7 @@ export default {
     async created() {
         const response = await fetch(endpoint + 'palette/', {
             method: 'GET',
-            credentials: 'include'
+            // credentials: 'include'
         })
         const data = await response.json()
         this.ids = data
