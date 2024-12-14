@@ -46,25 +46,23 @@ export default {
             );
             const data = await response.json();
             this.me = data.username;
-            console.log(this.me);
+
+            if (this.$route.path === '/home') {
+                this.home = true
+            } else if (this.$route.path === '/folder') {
+                this.folder = true
+            } else if (this.$route.path === '/search') {
+                this.search = true
+            } else if (this.$route.path === '/brain') {
+                this.brain = true
+            } else if (this.$route.path === '/' + this.me) {
+                this.human = true
+            }
         }
     },
     created() {
         this.fetchData();
     },
-    mounted() {
-        if (this.$route.path === '/home') {
-            this.home = true
-        } else if (this.$route.path === '/folder') {
-            this.folder = true
-        } else if (this.$route.path === '/search') {
-            this.search = true
-        } else if (this.$route.path === '/brain') {
-            this.brain = true
-        } else if (this.$route.path === '/human') {
-            this.human = true
-        }
-    }
 }
 </script>
 
