@@ -61,12 +61,16 @@ export default {
         },
     },
     async created() {
-        const response = await fetch(endpoint + 'palette/', {
+        try {
+            const response = await fetch(endpoint + 'palette/', {
             method: 'GET',
-            // credentials: 'include'
+            credentials: 'include'
         })
         const data = await response.json()
         this.ids = data
+        } catch (error) {
+            console.error('API fetch error:', error)
+        }
     },
     mounted() {
         setInterval(() => {
