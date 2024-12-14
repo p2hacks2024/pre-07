@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>{{ title }}</h1>
-        <img :src="`${endpoint}image/${imagefilename}`" alt="サムネイル" class="image">
+        <img :src="`${endpoint}image/${imagefilename}`" alt="" class="image">
         <router-link class="profile" :to="`/${username}`">
             <div class="icon"></div>
             <span>{{ username }}</span>
