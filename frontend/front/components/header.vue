@@ -1,7 +1,7 @@
 <template>
     <header :class="{ hidden: isHidden }">
         <!-- ヘッダーの内容 -->
-        <h1>P<span class="red">!</span>NT</h1>
+        <img src="@/assets/logo.png" alt="logo" >
 </header>
 </template>
 
@@ -42,7 +42,10 @@ header {
     background-color: #fff;
     text-align: center;
 }
-.red {
-    color: red;
+
+img {
+    margin: 23px;
+    width: auto;
+    height: 36px;
 }
 </style>
