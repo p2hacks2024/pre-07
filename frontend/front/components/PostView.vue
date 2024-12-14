@@ -1,7 +1,7 @@
 <template>
     <a :href="`/test/${id}`">
         <div class="postView">
-            <img src="https://s3-alpha-sig.figma.com/img/24d4/9623/89e7d20455cd946da2c7a04f25e0b53e?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=aB4zDlEK-PNKzH6d9HGm2fIezFDgx4cPReh5sUFllWYTj5aEEwsGbBug5DB~nlEZ3Maz9FmV-eHPCcUyT2xi48X3uA3HrE2Oso4BOGorQxu6nWfxwNyR-5OgWG0eYToQ-M4RqfI8LwQPe77gDWGhVqkv5JuxTcUcIV-qZxWgY7yicXD32sbgF7FKLqHEUI2hP-oWuDZhvbg-Zzl7L1udJfbl0eWXoXxQidnVMuLIzrWSY8zOskyUIhyrvopS3uRcqj9B4EHXSexJg1V3P~cUyyEDFB-co-QN0wL~e3iMUexqrnK1zK9nw-ZWeMwYjxsJHd6wzTJkgmrekYhzvlQICA__">
+            <img v-if="imagefilename" :src="`${endpoint}image/${imagefilename}`">
             <div class="contents">
                 <h1>{{ title }}</h1>
                 <p>{{ description }}</p>
@@ -16,49 +16,45 @@
 </template>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap');
-    .postView {
-        border-radius: 15px;
-        background-color: #fff;
-        color: black;
-        text-decoration: none;
-        margin: 5%;
-    }
-    img {
-        border-radius: 15px 15px 0 0;
-        width: 100%;
-        height: 100%;
-    }
-    h1 {
-        font-family: "Zen Kaku Gothic New", sans-serif;
-        margin: 0;
-        padding: 0;
-        font-size: 20px;
-    }
-    p {
-        font-family: "Zen Kaku Gothic New", sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    .contents {
-        padding: 5px;
-    }
-    .account {
-        border-top: 1px solid #bdbdbd;
-        padding: 5px;
-        display: flex;
-    }
-    .icon p {
-        display: table-cell;
-        text-align: center;
-        vertical-align: middle;
-    }
-    .icon {
-        border-radius: 50%;
-        height: 20px;
-        width: 20px;
-        background-color: black;
-        margin-right: 5px;
-    }
+/* font-family: "Zen Kaku Gothic New", sans-serif; */
+a {
+    text-decoration: none;
+    color: black;
+}
+img {
+    width: 100%;
+    max-height: 100px;
+    object-fit: cover;
+    border-radius: 20px 20px 0px 0px;
+}
+.postView {
+    background-color: #f5f5f5;
+    border-radius: 20px;
+}
+h1 {
+    margin: 0px;
+    padding: 0px;
+    font-size: 140%;
+}
+.contents {
+    padding-top: 5px;
+    text-align: center;
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.contents p {
+    margin: 0px;
+}
+.account {
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    padding: 3px 30px 10px 30px;
+    border-top: 1px solid #dcdcdc;
+    margin-top: 5px;
+}
+.account p {
+    margin: 0px;
+}
 </style>
 
 <script>
@@ -75,7 +71,8 @@ export default {
         return {
             title: '',
             description: '',
-            username: ''
+            username: '',
+            endpoint: endpoint
         }
     },  
     async created() {
@@ -85,6 +82,7 @@ export default {
         this.title = data.idea.title
         this.description = data.idea.description
         this.username = data.username
+        this.imagefilename = data.idea.image
     },
 }
 

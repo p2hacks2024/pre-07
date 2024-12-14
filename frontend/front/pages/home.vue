@@ -27,12 +27,7 @@ export default {
 <style scoped>
 .timeLine {
     padding: 10px;
-    background-color: #f3f3f3;
-    display:flex;
-    flex-wrap:wrap;
-}
-.postContents {
-    width: 50%;
+    background-color: #ffffff;
 }
 .postView {
     margin: 5%;
