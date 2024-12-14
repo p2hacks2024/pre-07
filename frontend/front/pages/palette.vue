@@ -48,7 +48,7 @@ export default {
             try {
                 const response = await fetch(endpoint+'mix?keyword='+itemsString, {
                     method: 'GET',
-                    // credentials: 'include'
+                    credentials: 'include'
                 });
                 const data = await response.json();
                 this.apiResult = data.message; // 取得したデータをapiResultに格納
@@ -63,7 +63,7 @@ export default {
     async created() {
         const response = await fetch(endpoint + 'palette/', {
             method: 'GET',
-            credentials: 'include'
+            // credentials: 'include'
         })
         const data = await response.json()
         this.ids = data
