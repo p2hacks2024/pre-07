@@ -43,9 +43,8 @@ header {
     text-align: center;
 }
 
-img {
-    margin: 23px;
+header img {
     width: auto;
-    height: 36px;
+    height: 83px;
 }
 </style>
