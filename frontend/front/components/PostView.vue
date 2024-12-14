@@ -74,7 +74,7 @@ export default {
             username: '',
             endpoint: endpoint
         }
-    },  
+    },
     async created() {
         const response = await fetch(endpoint+`idea/${this.id}`, {
         })
