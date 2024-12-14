@@ -5,6 +5,7 @@
     <div>
         <Header />
         <div class="space"></div>
+        <NuxtPwaManifest />
         <NuxtPage />
         <div class="space"></div>
         <Footer class="footer" />
