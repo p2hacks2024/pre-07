@@ -1,11 +1,11 @@
 <script>
 import { endpoint } from '~/components/APIEndPoint';
-import Icon from '~/components/Icon.vue';
 export default {
     data() {
         return {
             Id: null,
-            ideaData: [] // 追加
+            name: '',
+            ideaData: [] // 追加,
         }
     },
     async created() {
@@ -22,7 +22,7 @@ export default {
 <template>
     <div>
         <div class="top">
-            <Icon :username="this.name"></Icon>
+            <!-- <Icon :username="name" /> -->
             <h1>{{ name }}</h1>
         </div>
         <div class="timeLine">

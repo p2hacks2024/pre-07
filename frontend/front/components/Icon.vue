@@ -1,15 +1,10 @@
-<template>
-    <div class="icon" :style="iconStyle">
-        <span class="icon-text">{{ name ? name.charAt(0) : '' }}</span>
-    </div>
-</template>
-
 <script>
 import { endpoint } from '~/components/APIEndPoint';
 
 export default {
     props: {
         username: {
+            type: String,
             required: true
         }
     },
@@ -18,15 +13,13 @@ export default {
             colorR: 0,
             colorG: 0,
             colorB: 0,
-            name: "",
         }
     },
     async created() {
         console.log(this.username);
         try {
-            const userResponse = await fetch(endpoint + `user/` + this.username);
+            const userResponse = await fetch(endpoint + `user/`+ this.username);
             const userData = await userResponse.json();
-            this.name = userData.user.name;
             this.colorR = userData.user.colorR;
             this.colorG = userData.user.colorG;
             this.colorB = userData.user.colorB;
@@ -43,6 +36,13 @@ export default {
     }
 }
 </script>
+
+<template>
+    <div class="icon" :style="iconStyle">
+        <span class="icon-text">{{ username ? username.charAt(0) : '' }}</span>
+    </div>
+</template>
+
 
 <style scoped>
 .icon {
