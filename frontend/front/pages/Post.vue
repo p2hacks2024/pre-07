@@ -84,21 +84,21 @@ export default {
             const formData = new FormData();
             if (this.uploadedImage) {
                 const blob = this.dataURLtoBlob(this.uploadedImage);
-                formData.append('image', blob, 'uploaded-image.png');
+                formData.append('file', blob, 'uploaded-image.png');
             }
 
             fetch('https://p2hacks.ict-lab.org/api/idea?title='+this.idea.name+"&description="+this.idea.description, {
                 method: 'POST',
                 headers: {
                     'accept': 'application/json',
-                    credentials: 'include',
                 },
+                credentials: 'include',
                 body: formData,
             })
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                this.$router.push('/idea/' + data.id);
+                this.$router.push('/idea/' + data.idea_id);
             })
             .catch((error) => {
                 console.error('Error:', error);
