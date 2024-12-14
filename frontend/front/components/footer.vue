@@ -12,11 +12,39 @@
         <a href="#">
             <img src="@/assets/brain.png" alt="brain" />
         </a>
-        <a href="#">
+        <a :href="'/' + me">
             <img src="@/assets/human.png" alt="human" />
         </a>
     </div>
 </template>
+
+<script>
+import { endpoint } from '~/components/APIEndPoint';
+
+export default {
+    data() {
+        return {
+            me : '',
+        }
+    },
+    methods: {
+        async fetchData() {
+            const response = await fetch(endpoint + 'me',
+                {
+                    credentials: 'include'
+                }
+            );
+            const data = await response.json();
+            this.me = data.username;
+            console.log(this.me);
+        }
+    },
+    created() {
+        this.fetchData();
+    }
+}
+</script>
+
 <style scoped>
 div {
     display: flex;
