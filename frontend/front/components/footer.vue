@@ -5,7 +5,7 @@
             <img v-else src="@/assets/home2.png" alt="home" />
         </a>
         <a href="/palette">
-            <img v-if="folder" src="@/assets/folder.png" alt="folder" />
+            <img v-if="palette" src="@/assets/folder.png" alt="folder" />
             <img v-else src="@/assets/folder2.png" alt="folder" />
         </a>
         <a href="/search">
@@ -17,7 +17,7 @@
             <img v-else src="@/assets/brain2.png" alt="brain" />
         </a>
         <a :href="islogin ? '/' + me : '/login'">
-            <img v-if="islogin" src="@/assets/human.png" alt="human" />
+            <img v-if="human" src="@/assets/human.png" alt="human" />
             <img v-else src="@/assets/human2.png" alt="human" />
         </a>
     </div>
@@ -32,7 +32,7 @@ export default {
             me : '',
             islogin: false,
             home: false,
-            folder: false,
+            palette: false,
             search: false,
             brain: false,
             human: false
@@ -53,8 +53,8 @@ export default {
 
             if (this.$route.path === '/home') {
                 this.home = true
-            } else if (this.$route.path === '/folder') {
-                this.folder = true
+            } else if (this.$route.path === '/palette') {
+                this.palette = true
             } else if (this.$route.path === '/search') {
                 this.search = true
             } else if (this.$route.path === '/brain') {
@@ -85,5 +85,6 @@ div {
 
 img {
     width: 30px;
+    height: 30px;
 }
 </style>
