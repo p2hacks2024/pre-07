@@ -7,6 +7,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from starlette.requests import Request
 from starlette.middleware.cors import CORSMiddleware 
 import datetime
+from fastapi.responses import FileResponse
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key="your-secret-key", same_site="none", max_age=3600, https_only=True , session_cookie="session")
@@ -68,14 +69,21 @@ def create_idea(request: Request, title: str, description: str, file: UploadFile
     session = SessionLocal()
     image_path = None
     if file:
-        image_path = f"images/{user_id}-{file.filename}-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.png"
-        with open(image_path, "wb") as image_file:
+        image_path = f"{user_id}-{file.filename}-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.png"
+        with open("images/"+image_path, "wb") as image_file:
             image_file.write(file.file.read())
     idea = Ideas(title=title, description=description, user_id=user_id, image=image_path)
     session.add(idea)
     session.commit()
     session.close()
     return {"message": "Idea created successfully"}
+
+# 画像を返すエンドポイント
+@app.get("/api/image/{filename}")
+def get_image(filename: str):
+    file_path = f"images/{filename}"
+    return FileResponse(file_path)
+
 
 # 検索を行うエンドポイント
 @app.get("/api/search")
