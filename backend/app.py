@@ -6,14 +6,15 @@ from models.models import Base, User, Ideas, Tags, Palettes, Goods
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.requests import Request
 from starlette.middleware.cors import CORSMiddleware 
+import datetime
 
 app = FastAPI()
-app.add_middleware(SessionMiddleware, secret_key="your-secret-key", same_site="none", max_age=3600, https_only=True )
+app.add_middleware(SessionMiddleware, secret_key="your-secret-key", same_site="none", max_age=3600, https_only=True , session_cookie="session")
 
 # CORSの設定
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # 特定のオリジンを許可
+    allow_origins=["http://localhost:3000", "https://p2hacks2024.pages.dev", "https://72dd05f4.p2hacks2024.pages.dev"],  # 特定のオリジンを許可
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -33,7 +34,7 @@ def read_root():
 def read_user(username: str):
     session = SessionLocal()
     user = session.query(User).filter(User.name == username).first()
-    ideas = session.query(Ideas).filter(Ideas.user_id == user.user_id).all()
+    ideas = session.query(Ideas).filter(Ideas.user_id == user.id).all()
     ideas_id = [idea.id for idea in ideas]
     session.close()
     return {"user": user, "ideas": ideas_id}
@@ -65,8 +66,12 @@ def read_idea(id: int):
 def create_idea(request: Request, title: str, description: str, file: UploadFile = File(None)):
     user_id = request.session.get('user_id')
     session = SessionLocal()
-    image_data = file.file.read() if file else None  # ファイルがある場合のみ読み込む
-    idea = Ideas(title=title, description=description, user_id=user_id, image=image_data)
+    image_path = None
+    if file:
+        image_path = f"images/{user_id}-{file.filename}-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.png"
+        with open(image_path, "wb") as image_file:
+            image_file.write(file.file.read())
+    idea = Ideas(title=title, description=description, user_id=user_id, image=image_path)
     session.add(idea)
     session.commit()
     session.close()

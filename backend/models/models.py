@@ -28,7 +28,7 @@ class Ideas(Base):
     user_id = Column(Integer, ForeignKey('users.id'))
     tags = relationship('Tags', back_populates='idea')
     create_at = Column(DateTime, default=datetime.datetime.now)
-    image = Column(LargeBinary)  # 画像ファイルを保存するためのカラムを追加
+    image = Column(String)  # 画像ファイルを保存するためのカラムを追加
     
     def __repr__(self):
         return f"{self.id}: {self.title} ({self.description})"
