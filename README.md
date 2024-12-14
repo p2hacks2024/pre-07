@@ -42,10 +42,32 @@ P!NT
 ## 開発技術 
 
 利用したプログラミング言語  
+Vue  
+Python  
 ...  
 
 利用したフレームワーク・ライブラリ  
+-フロントエンド-  
+Nuxt.js  
+cloudflare pages(PWA化)  
+
+-バックエンド-
+Nginx  
+FastAPI  
+MySQL  
 ...  
 
 その他開発に使用したツール・サービス
+Dify  (LLM制御)  
+Gemini (文章解析・出力)  
+DALL-E2 (画像生成)  
+Docker compose (開発環境共有)  
+
+Adobe Illustrator (画像生成されたものに手を加える・ロゴ草案を書き起こす)  
+Adobe Stock (デモ用兼プレースホルダー用画像)　
+Canva (発表資料作成・画像生成)  
+ChatGPT (プレースホルダー用画像・プレースホルダーテキスト生成)　
+Figma (フレームワーク作成)  
+FigJam (ブレーンストーミング・画面遷移草案作成)　　
+Github Copilot(コーディング補助)
 ...  
