@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import { endpoint } from '~/components/APIEndPoint';
 export default {
     data() {
         return {
@@ -80,39 +79,6 @@ export default {
             if (this.uploadedImage) {
                 console.log("アップロード画像:", this.uploadedImage);
             }
-
-            const formData = new FormData();
-            if (this.uploadedImage) {
-                const blob = this.dataURLtoBlob(this.uploadedImage);
-                formData.append('file', blob, 'uploaded-image.png');
-            }
-
-            fetch('https://p2hacks.ict-lab.org/api/idea?title='+this.idea.name+"&description="+this.idea.description, {
-                method: 'POST',
-                headers: {
-                    'accept': 'application/json',
-                },
-                credentials: 'include',
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                this.$router.push('/idea/' + data.idea_id);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        },
-        dataURLtoBlob(dataURL) {
-            const byteString = atob(dataURL.split(',')[1]);
-            const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
-            const ab = new ArrayBuffer(byteString.length);
-            const ia = new Uint8Array(ab);
-            for (let i = 0; i < byteString.length; i++) {
-                ia[i] = byteString.charCodeAt(i);
-            }
-            return new Blob([ab], { type: mimeString });
         },
     },
 };
