@@ -19,7 +19,7 @@ app.add_middleware(SessionMiddleware, secret_key="iu4hfwieufhlaiuhldsufhalsufhls
 # CORSの設定
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://p2hacks2024.pages.dev", "https://accord33-feature-pwa.p2hacks2024.pages.dev", "https://p2hacks2024.accord33.org"],  # 特定のオリジンを許可
+    allow_origins=["https://accord33-feature-pwa.p2hacks2024.pages.dev","http://localhost:3000", "https://p2hacks2024.pages.dev", "https://p2hacks2024.accord33.org"],  # 特定のオリジンを許可
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -156,7 +156,7 @@ def mix_ideas(request: Request, keyword: str):
         "user": f"{username}"
     }
     print(data)
-    return {"message": "タイトル：シマエナガ星雲生成アプリ<br><br>詳細：シマエナガの生息地データと、ユーザーが指定した色や形に基づいて、星雲を生成するアプリです。マップ上に表示されたシマエナガの生息地を参考に、その地域をイメージした星雲を生成できます。例えば、雪深い地域のシマエナガなら白と青を基調とした星雲、温暖な地域のシマエナガならオレンジや黄色の星雲などが生成されます。生成された星雲は壁紙やアバターとして利用可能です。シマエナガの可愛らしさと宇宙の神秘的な美しさを融合させた、癒やしのアプリです。", "result": "Success", "image":"1-difyimage-20241214205850.png"}
+    # return {"message": "タイトル：シマエナガ星雲生成アプリ<br><br>詳細：シマエナガの生息地データと、ユーザーが指定した色や形に基づいて、星雲を生成するアプリです。マップ上に表示されたシマエナガの生息地を参考に、その地域をイメージした星雲を生成できます。例えば、雪深い地域のシマエナガなら白と青を基調とした星雲、温暖な地域のシマエナガならオレンジや黄色の星雲などが生成されます。生成された星雲は壁紙やアバターとして利用可能です。シマエナガの可愛らしさと宇宙の神秘的な美しさを融合させた、癒やしのアプリです。", "result": "Success", "image":"1-difyimage-20241214205850.png"}
     
     response = requests.post(url, headers=headers, json=data)
     data = response.json()
@@ -167,8 +167,9 @@ def mix_ideas(request: Request, keyword: str):
         url = match.group(1)
         print("抽出されたURL:", url)
         text_without_url = re.sub(url_pattern, "", ans).strip()
-        text_without_url = text_without_url.replace("\n", "<br>")
-        print("URLを除去したテキスト:", text_without_url)
+        text_without_url = text_without_url.replace("\n", "")
+        text_without_urls = text_without_url.split(",")
+        print(text_without_urls)
 
         # requestsを使用して画像をダウンロード
         output_file = f"{user_id}-difyimage-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.png"
@@ -179,7 +180,7 @@ def mix_ideas(request: Request, keyword: str):
                 for chunk in response.iter_content(chunk_size=8192):
                     file.write(chunk)
             print(f"画像を正常にダウンロードしました: {output_file}")
-            return {"message": text_without_url, "image": output_file, "result": "Success"}
+            return {"title": text_without_urls[1], "detail": text_without_urls[2], "image": output_file, "result": "Success"}
         except requests.exceptions.RequestException as e:
             return {"result": f"Error {e}", "message": ans}
     else:
