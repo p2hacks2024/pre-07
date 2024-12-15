@@ -7,7 +7,9 @@
                 <p>{{ truncatedDescription }}</p>
             </div>
             <div class="account">
-                <Icon :username="username"></Icon>
+                <div class="icon" :style="iconStyle">
+                    <span class="icon-text">{{ username ? username.charAt(0) : '' }}</span>
+                </div>
                 <p>{{ username }}</p>
             </div>
 
@@ -59,11 +61,29 @@ h1 {
     margin: 0px;
     margin-left: 10px;
 }
+
+.icon {
+    width: 40px;
+    height: 40px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+.icon-text {
+    font-size: 16px;
+    color: white;
+}
 </style>
 
 <script>
 import{endpoint} from '~/components/APIEndPoint'
-import Icon from '~/components/Icon.vue';
 
 export default {
     props: {
@@ -76,13 +96,21 @@ export default {
         return {
             title: '',
             description:'',
-            username: '',
-            endpoint: endpoint
+            username: "test",
+            endpoint: endpoint,
+            colorR: 0,
+            colorG: 0,
+            colorB: 0,
         }
     },
     computed: {
         truncatedDescription() {
             return this.description.length > 40 ? this.description.substring(0, 40) + '...' : this.description;
+        },
+        iconStyle() {
+            return {
+                backgroundColor: `rgb(${this.colorR}, ${this.colorG}, ${this.colorB})`,
+            };
         }
     },
     async created() {
@@ -93,6 +121,12 @@ export default {
         this.description = data.idea.description
         this.username = data.username
         this.imagefilename = data.idea.image
+
+        const userResponse = await fetch(endpoint + `user/`+ this.username);
+            const userData = await userResponse.json();
+            this.colorR = userData.user.colorR;
+            this.colorG = userData.user.colorG;
+            this.colorB = userData.user.colorB;
     },
 }
 

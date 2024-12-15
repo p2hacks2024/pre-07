@@ -1,1 +1,1 @@
-export const endpoint = `https://p2hacks2024.ict-lab.org/api/`;
+export const endpoint = `https://backend-p2hacks2024.accord33.org/api/`;
