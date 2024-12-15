@@ -10,11 +10,11 @@
             <p>{{ description }}</p>
         </div>
         <div class="bottom">
-            <img src="assets/comment.png" alt="comment">
-            <img src="assets/fork.png" alt="fork">
-            <img src="assets/heart.png" alt="heart">
-            <img src="assets/light.png" alt="light">
-        </div >
+
+            <img v-if="isKeeped" src="assets/keep2.png" alt="keep">
+            <img v-else src="assets/keep1.png" alt="keep" @click="Keep">
+
+        </div>
     </div>
 </template>
 
@@ -29,16 +29,66 @@ export default {
             username: null,
             description: '',
             imagefaile: null,
-            endpoint: endpoint
+            endpoint: endpoint,
+            isKeeped: false,
         }
     },
-    async created() {
-            const response = await fetch(endpoint + `idea/${this.$route.params.id}`);
+    methods : {
+        async Keep() {
+            try {
+                const response = await fetch(endpoint + `keep?idea_id=${this.$route.params.id}`,
+                    {
+                        method: 'GET',
+                        credentials: 'include',
+                    }
+                );
                 const data = await response.json();
-                this.title = data.idea.title;
-                this.username = data.username;
-                this.description = data.idea.description;
-                this.imagefilename = data.idea.image;
+                console.log(data);
+                this.isKeeped = true;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }   
+    },
+    async created() {
+        const response = await fetch(endpoint + `idea/${this.$route.params.id}`);
+        const data = await response.json();
+        this.title = data.idea.title;
+        this.username = data.username;
+        this.description = data.idea.description;
+        this.imagefilename = data.idea.image;
+        try {
+            const response = await fetch(endpoint + `user/keep/${this.$route.params.id}`,
+                {
+                    method: 'GET',
+                    credentials: 'include',
+                }
+            );
+            const data = await response.json();
+            console.log(data);
+            if (data.result === "Success") {
+                this.isKeeped = true;
+            }
+                
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    },
+    async getKeep() {
+        try {
+            const response = await getch(endpoint + `idea/user/keep/${this.$route.params.id}`,
+                {
+                    method: 'GET',
+                    credentials: 'include',
+                }
+            );
+            const data = await response.json();
+            console.log(data);
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 };
 </script>

@@ -1,67 +1,90 @@
 <template>
     <div class="postView" @click="emitItemClick">
-        <img src="https://s3-alpha-sig.figma.com/img/24d4/9623/89e7d20455cd946da2c7a04f25e0b53e?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=aB4zDlEK-PNKzH6d9HGm2fIezFDgx4cPReh5sUFllWYTj5aEEwsGbBug5DB~nlEZ3Maz9FmV-eHPCcUyT2xi48X3uA3HrE2Oso4BOGorQxu6nWfxwNyR-5OgWG0eYToQ-M4RqfI8LwQPe77gDWGhVqkv5JuxTcUcIV-qZxWgY7yicXD32sbgF7FKLqHEUI2hP-oWuDZhvbg-Zzl7L1udJfbl0eWXoXxQidnVMuLIzrWSY8zOskyUIhyrvopS3uRcqj9B4EHXSexJg1V3P~cUyyEDFB-co-QN0wL~e3iMUexqrnK1zK9nw-ZWeMwYjxsJHd6wzTJkgmrekYhzvlQICA__">
+        <img v-if="imagefilename" :src="`${endpoint}image/${imagefilename}`">
         <div class="contents">
             <h1>{{ title }}</h1>
-            <p>{{ description }}</p>
+            <p>{{ truncatedDescription }}</p>
         </div>
         <div class="account">
-            <div class="icon"></div>
+            <div class="icon" :style="iconStyle">
+                <span class="icon-text">{{ username ? username.charAt(0) : '' }}</span>
+            </div>
             <p>{{ username }}</p>
         </div>
-
     </div>
 </template>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap');
-    .postView {
-        border-radius: 15px;
-        background-color: #fff;
-        color: black;
-        text-decoration: none;
-        margin: 5%;
-    }
-    img {
-        border-radius: 15px 15px 0 0;
-        width: 100%;
-        height: 100%;
-    }
-    h1 {
-        font-family: "Zen Kaku Gothic New", sans-serif;
-        margin: 0;
-        padding: 0;
-        font-size: 20px;
-    }
-    p {
-        font-family: "Zen Kaku Gothic New", sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    .contents {
-        padding: 5px;
-    }
-    .account {
-        border-top: 1px solid #bdbdbd;
-        padding: 5px;
-        display: flex;
-    }
-    .icon p {
-        display: table-cell;
-        text-align: center;
-        vertical-align: middle;
-    }
-    .icon {
-        border-radius: 50%;
-        height: 20px;
-        width: 20px;
-        background-color: black;
-        margin-right: 5px;
-    }
+
+.postView {
+    border-radius: 15px;
+    background-color: #fff;
+    color: black;
+    text-decoration: none;
+    margin: 5%;
+}
+img {
+    width: 100%;
+    max-height: 100px;
+    object-fit: cover;
+    border-radius: 20px 20px 0px 0px;
+}
+h1 {
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+}
+p {
+    align-items: center;
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.contents {
+    padding: 5px;
+}
+.account {
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    padding: 3px 30px 10px 30px;
+    border-top: 1px solid #dcdcdc;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+.account p {
+    margin: 0px;
+    margin-left: 10px;
+}
+.icon p {
+
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.icon {
+    width: 40px;
+    height: 40px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+.icon-text {
+    font-size: 16px;
+    color: white;
+}
 </style>
 
 <script>
 import{endpoint} from '~/components/APIEndPoint'
-
+import Icon from '~/components/Icon.vue'
 export default {
     props: {
         id: {
@@ -73,9 +96,23 @@ export default {
         return {
             title: '',
             description: '',
-            username: ''
+            username: '',
+            endpoint: endpoint,
+            colorR: 0,
+            colorG: 0,
+            colorB: 0,
         }
-    },  
+    },
+    computed: {
+        truncatedDescription() {
+            return this.description.length > 40 ? this.description.substring(0, 40) + '...' : this.description;
+        },
+        iconStyle() {
+            return {
+                backgroundColor: `rgb(${this.colorR}, ${this.colorG}, ${this.colorB})`,
+            };
+        }
+    },
     async created() {
         const response = await fetch(endpoint+`idea/${this.id}`, {
         })
@@ -83,6 +120,12 @@ export default {
         this.title = data.idea.title
         this.description = data.idea.description
         this.username = data.username
+        this.imagefilename = data.idea.image
+        const userResponse = await fetch(endpoint + `user/`+ this.username);
+            const userData = await userResponse.json();
+            this.colorR = userData.user.colorR;
+            this.colorG = userData.user.colorG;
+            this.colorB = userData.user.colorB;
     },
     methods: {
         emitItemClick() {

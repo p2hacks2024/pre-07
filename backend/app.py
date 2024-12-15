@@ -11,14 +11,15 @@ from fastapi.responses import FileResponse
 import requests
 import re
 from typing import Optional
+import random
 
 app = FastAPI()
-app.add_middleware(SessionMiddleware, secret_key="your-secret-key", same_site="none", max_age=3600, https_only=True , session_cookie="session")
+app.add_middleware(SessionMiddleware, secret_key="iu4hfwieufhlaiuhldsufhalsufhlsd", same_site="none", max_age=3600, https_only=True , session_cookie="session")
 
 # CORSの設定
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://p2hacks2024.pages.dev", "https://accord33-fix-credentialerror.p2hacks2024.pages.dev", "https://p2hacks2024.accord33.org"],  # 特定のオリジンを許可
+    allow_origins=["https://accord33-feature-pwa.p2hacks2024.pages.dev","http://localhost:3000", "https://p2hacks2024.pages.dev", "https://p2hacks2024.accord33.org"],  # 特定のオリジンを許可
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -38,6 +39,9 @@ def read_root():
 def read_user(username: str):
     session = SessionLocal()
     user = session.query(User).filter(User.name == username).first()
+    if not user:
+        session.close()
+        raise HTTPException(status_code=404, detail="User not found")
     ideas = session.query(Ideas).filter(Ideas.user_id == user.id).all()
     ideas_id = [idea.id for idea in ideas]
     session.close()
@@ -74,12 +78,16 @@ def create_idea(request: Request, title:str = Form(None), description: str = For
         return {"message": "Please login first", "result": "Error"}
     session = SessionLocal()
     image_path = None
-    print(file )
-    if file and isinstance(file, UploadFile):
-        image_path = f"{user_id}-{file.filename}-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.png"
+    print(file.filename)
+    
+    if file.content_type not in ["image/jpeg", "image/png"]:
+        raise HTTPException(status_code=400, detail="Unsupported file type. Only JPEG, PNG are allowed.")
+    
+    if file:
+        image_path = f"{user_id}-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}-{file.filename}"
         with open("images/"+image_path, "wb") as image_file:
             image_file.write(file.file.read())
-    idea = Ideas(title=title, description=description, user_id=user_id, image=image_path)
+    idea = Ideas(title=title, description=description, content=description, user_id=user_id, image=image_path)
     session.add(idea)
     session.commit()
     return {"message": "Idea created successfully", "idea_id": idea.id}                                 
@@ -99,6 +107,16 @@ def keep_idea(request: Request, idea_id: int):
     session.close()
     return {"message": "Idea kept successfully"}
 
+@app.get("/api/user/keep/{idea_id}")
+def get_kept_ideas(request: Request, idea_id: int):
+    user_id = request.session.get('user_id')
+    session = SessionLocal()
+    ideas = session.query(Palettes).filter(Palettes.user_id == user_id).filter(Palettes.idea_id == idea_id).all()
+    session.close()
+    if ideas:
+        return {"result": "Success"}
+    else:
+        return {"result": "Error"}
 
 # 検索を行うエンドポイント
 @app.get("/api/search")
@@ -138,7 +156,7 @@ def mix_ideas(request: Request, keyword: str):
         "user": f"{username}"
     }
     print(data)
-    return {"message": "タイトル：シマエナガ星雲生成アプリ<br><br>詳細：シマエナガの生息地データと、ユーザーが指定した色や形に基づいて、星雲を生成するアプリです。マップ上に表示されたシマエナガの生息地を参考に、その地域をイメージした星雲を生成できます。例えば、雪深い地域のシマエナガなら白と青を基調とした星雲、温暖な地域のシマエナガならオレンジや黄色の星雲などが生成されます。生成された星雲は壁紙やアバターとして利用可能です。シマエナガの可愛らしさと宇宙の神秘的な美しさを融合させた、癒やしのアプリです。", "result": "Success", "image":"1-difyimage-20241214205850.png"}
+    # return {"message": "タイトル：シマエナガ星雲生成アプリ<br><br>詳細：シマエナガの生息地データと、ユーザーが指定した色や形に基づいて、星雲を生成するアプリです。マップ上に表示されたシマエナガの生息地を参考に、その地域をイメージした星雲を生成できます。例えば、雪深い地域のシマエナガなら白と青を基調とした星雲、温暖な地域のシマエナガならオレンジや黄色の星雲などが生成されます。生成された星雲は壁紙やアバターとして利用可能です。シマエナガの可愛らしさと宇宙の神秘的な美しさを融合させた、癒やしのアプリです。", "result": "Success", "image":"1-difyimage-20241214205850.png"}
     
     response = requests.post(url, headers=headers, json=data)
     data = response.json()
@@ -149,8 +167,9 @@ def mix_ideas(request: Request, keyword: str):
         url = match.group(1)
         print("抽出されたURL:", url)
         text_without_url = re.sub(url_pattern, "", ans).strip()
-        text_without_url = text_without_url.replace("\n", "<br>")
-        print("URLを除去したテキスト:", text_without_url)
+        text_without_url = text_without_url.replace("\n", "")
+        text_without_urls = text_without_url.split(",")
+        print(text_without_urls)
 
         # requestsを使用して画像をダウンロード
         output_file = f"{user_id}-difyimage-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.png"
@@ -161,7 +180,7 @@ def mix_ideas(request: Request, keyword: str):
                 for chunk in response.iter_content(chunk_size=8192):
                     file.write(chunk)
             print(f"画像を正常にダウンロードしました: {output_file}")
-            return {"message": text_without_url, "image": output_file, "result": "Success"}
+            return {"title": text_without_urls[1], "detail": text_without_urls[2], "image": output_file, "result": "Success"}
         except requests.exceptions.RequestException as e:
             return {"result": f"Error {e}", "message": ans}
     else:
@@ -217,7 +236,7 @@ def signup(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
     if user:
         session.close()
         raise HTTPException(status_code=400, detail="Username already exists")
-    user = User(name=form_data.username, password=form_data.password)
+    user = User(name=form_data.username, password=form_data.password, colorR=random.randint(0, 255), colorG=random.randint(0, 255), colorB=random.randint(0, 255))
     session.add(user)
     session.commit()
     session.close()
