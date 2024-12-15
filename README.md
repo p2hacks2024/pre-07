@@ -1,7 +1,7 @@
 # P2HACKS2024 アピールシート 
 
 ## プロダクト名  
-<h1 style="text-align: center;">P<span style="color:#ffd118;">!</span>NT</h1>
+[P!NT](./images/rogozennose.png)
 
 ## コンセプト  
 人のアイディアと出会える新感覚SNS  
