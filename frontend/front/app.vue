@@ -1,6 +1,21 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+</script>
 <template>
-  <div>
-    <NuxtPage />
-  </div>
+    <div>
+        <Header />
+        <div class="space"></div>
+        <NuxtPage />
+        <div class="space"></div>
+        <Footer class="footer" />
+    </div>
 </template>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+}
+.space {
+    margin-top: 80px;
+}
+</style>

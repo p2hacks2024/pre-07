@@ -1,15 +1,119 @@
 <template>
-  <div>
-    {{post}}
-  </div>
+    <div>
+        <h1>{{ title }}</h1>
+        <img :src="`${endpoint}image/${imagefilename}`" alt="" class="image">
+        <router-link class="profile" :to="`/${username}`">
+            <div class="icon"></div>
+            <span>{{ username }}</span>
+        </router-link>
+        <div class="content">
+            <p>{{ description }}</p>
+        </div>
+        <div class="bottom">
+            <img src="assets/comment.png" alt="comment">
+            <img src="assets/fork.png" alt="fork">
+            <img src="assets/heart.png" alt="heart">
+            <img src="assets/light.png" alt="light">
+        </div >
+    </div>
 </template>
+
 <script>
+import { endpoint } from '~/components/APIEndPoint';
+
 export default {
-  async asyncData({ $axios }) {
-    const { data } = await $axios.get(
-      `http://10.124.75.43:8000/api/ideas/{params.id}`
-    );
-    return { post: data };
-  },
-}
+    data() {
+        return {
+            title: '',
+            fork: null,
+            username: null,
+            description: '',
+            imagefaile: null,
+            endpoint: endpoint
+        }
+    },
+    async created() {
+            const response = await fetch(endpoint + `idea/${this.$route.params.id}`);
+                const data = await response.json();
+                this.title = data.idea.title;
+                this.username = data.username;
+                this.description = data.idea.description;
+                this.imagefilename = data.idea.image;
+    }
+};
 </script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap');
+
+.content {
+    display: flex;
+    flex-direction: column;
+    margin: 25px;
+    margin-bottom: 140px;
+}
+
+h1 {
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 20px 0;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 20px;
+}
+
+p {
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.bottom {
+    border-top: 1px solid #a2a2a2;
+    background-color: #fff;
+    display: flex;
+    position: fixed;
+    margin-top: 20px;
+    bottom: 60px;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    justify-content: space-around;
+}
+
+.bottom img {
+    width: 30px;
+    height: 30px;
+    display: block;
+}
+
+.image {
+    width: 85%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.profile {
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    display: flex;
+    align-items: center;
+    padding: 10px 40px;
+    border-bottom: 1px solid #ddd;
+    text-decoration: none;
+    color: #000;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    background-color: black;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+</style>
