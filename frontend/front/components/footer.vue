@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div >
         <a href="/home">
             <img v-if="home" src="@/assets/home.png" alt="home" />
             <img v-else src="@/assets/home2.png" alt="home" />
