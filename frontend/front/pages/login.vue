@@ -43,6 +43,10 @@ export default {
                 formData.append('password', this.password);
 
                 const response = await fetch(endpoint + 'login', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'cookie': document.cookie
+                    },
                     method: 'POST',
                     body: formData,
                     credentials: 'include'

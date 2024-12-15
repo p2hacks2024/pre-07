@@ -64,7 +64,11 @@ export default {
         try {
             const response = await fetch(endpoint + 'palette/', {
             method: 'GET',
-            credentials: 'include'
+            credentials: 'include',
+            headers: {
+                        'Content-Type': 'application/json',
+                        'cookie': document.cookie
+                    },
         })
         const data = await response.json()
         this.ids = data
