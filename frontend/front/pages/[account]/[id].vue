@@ -10,13 +10,10 @@
             <p>{{ description }}</p>
         </div>
         <div class="bottom">
-            <img src="assets/comment.png" alt="comment">
 
             <img v-if="isKeeped" src="assets/keep2.png" alt="keep">
             <img v-else src="assets/keep1.png" alt="keep" @click="Keep">
 
-            <img src="assets/heart.png" alt="heart">
-            <img src="assets/light.png" alt="light">
         </div>
     </div>
 </template>
