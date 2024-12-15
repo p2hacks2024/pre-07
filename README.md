@@ -30,7 +30,8 @@
 <img src="https://github.com/user-attachments/assets/79db43d8-2060-4df5-bac3-bef67be6a68c" width="300">
 <img src="https://github.com/user-attachments/assets/68709fbb-4929-4e94-b5c1-821e02ee7687" width="300">
 <img src="https://github.com/user-attachments/assets/ab6464c4-e026-4e7a-a734-4c18f057c5df" width="300">
-![実際の動画](./images/9EB636F7-1EA4-4066-8934-EF6F7DF32EF2.MOV)
+[![実際の動画](./images/9EB636F7-1EA4-4066-8934-EF6F7DF32EF2.MOV)](https://github.com/user-attachments/assets/6070f9d5-7c1f-4756-a257-19f65534136f
+)
 
 ## 開発体制  
 
