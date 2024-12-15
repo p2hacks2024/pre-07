@@ -15,7 +15,8 @@ export default {
                 title: '',
                 content: '',
             },
-            apiResult: '', // 追加
+            apititle: '', // 追加
+            apidetail: '', // 追加
             apiImage: '', // 追加
             endpoint: endpoint,
             isLoading: false // 追加
@@ -33,7 +34,7 @@ export default {
             const y = Math.sin((angle * Math.PI) / 180) * this.radius
             return {
                 left: `calc(50% + ${x}px)`,
-                top: `calc(50% + ${y}px)` 
+                top: `calc(50% + ${y}px)`
             }
         },
         async handleMixMode() {
@@ -51,7 +52,8 @@ export default {
                     credentials: 'include'
                 });
                 const data = await response.json();
-                this.apiResult = data.message; // 取得したデータをapiResultに格納
+                this.apititle = data.title; // 取得したデータをapiResultに格納
+                this.apidetail = data.detail; // 取得したデータをapiResultに格納
                 this.apiImage = data.image; // 取得したデータをapiImageに格納
             } catch (error) {
                 console.error('API fetch error:', error);
@@ -100,7 +102,8 @@ export default {
             <div v-else>
                 <img :src="`${endpoint}image/${apiImage}`" alt="palette" />
                 <div class="palette-text">
-                    <p>{{ apiResult }}</p>
+                    <h2>{{ apititle }}</h2>
+                    <p>{{ apidetail }}</p>
                 </div>
                 <div class="regenerate" @click="handleMixMode">
                     再生成
@@ -119,7 +122,6 @@ export default {
 
 <style scoped>
 .timeLine {
-    padding: 10px;
     background-color: #f3f3f3;
     display: flex;
     flex-wrap: wrap;
@@ -166,11 +168,11 @@ export default {
     z-index: 10;
 }
 .postContents {
-    width: 50%;
+    width: 100%;
 }
 
 .postView {
-    margin: 5%;
+    margin: 10px;
 }
 .circle {
     position: fixed;
@@ -199,12 +201,12 @@ export default {
     height: 80px;
     transform: translateX(-40px) translateY(-40px);
     border-radius: 50%;
-    background-color: aqua;
+    background-color: rgba(239, 239, 239, 0.834);
+    color: #000;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 20px;
-    color: white;
     cursor: pointer;
 }
 </style>
