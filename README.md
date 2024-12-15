@@ -1,7 +1,7 @@
 # P2HACKS2024 アピールシート 
 
 ## プロダクト名  
-P<span style="color: yellow;">!</span>NT
+<img src="https://github.com/user-attachments/assets/2c5ed8c7-c918-4091-8c28-71358344989a" width="300">
 
 ## コンセプト  
 人のアイディアと出会える新感覚SNS  
@@ -27,9 +27,9 @@ P<span style="color: yellow;">!</span>NT
 ・無限のアイディアが探せる・出会える。  
 ・AIの画像付きアイディアで視覚的にもインスピレーションを。 
 
-![home画面](./images/IMG_9503.PNG)
-![投稿画面](./images/IMG_9504.PNG)
-![混ぜる画面](./images/IMG_9505.PNG)
+<img src="https://github.com/user-attachments/assets/79db43d8-2060-4df5-bac3-bef67be6a68c" width="300">
+<img src="https://github.com/user-attachments/assets/68709fbb-4929-4e94-b5c1-821e02ee7687" width="300">
+<img src="https://github.com/user-attachments/assets/ab6464c4-e026-4e7a-a734-4c18f057c5df" width="300">
 ![実際の動画](./images/9EB636F7-1EA4-4066-8934-EF6F7DF32EF2.MOV)
 
 ## 開発体制  
