@@ -1,7 +1,7 @@
 # P2HACKS2024 アピールシート 
 
 ## プロダクト名  
-[P!NT](./images/rogozennose.png)
+P<span style="color: yellow;">!</span>NT
 
 ## コンセプト  
 人のアイディアと出会える新感覚SNS  
@@ -27,10 +27,10 @@
 ・無限のアイディアが探せる・出会える。  
 ・AIの画像付きアイディアで視覚的にもインスピレーションを。 
 
-[home画面](./images/IMG_9503.PNG)
-[投稿画面](./images/IMG_9504.PNG)
-[混ぜる画面](./images/IMG_9505.PNG)
-[実際の動画](./images/9EB636F7-1EA4-4066-8934-EF6F7DF32EF2.MOV)
+![home画面](./images/IMG_9503.PNG)
+![投稿画面](./images/IMG_9504.PNG)
+![混ぜる画面](./images/IMG_9505.PNG)
+![実際の動画](./images/9EB636F7-1EA4-4066-8934-EF6F7DF32EF2.MOV)
 
 ## 開発体制  
 
