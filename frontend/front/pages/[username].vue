@@ -1,5 +1,6 @@
 <script>
 import { endpoint } from '~/components/APIEndPoint';
+import Icon from '~/components/Icon.vue';
 export default {
     data() {
         return {
@@ -22,7 +23,7 @@ export default {
 <template>
     <div>
         <div class="top">
-            <!-- <Icon :username="name" /> -->
+            <Icon :username="$route.params.username" />
             <h1>{{ name }}</h1>
         </div>
         <div class="timeLine">
