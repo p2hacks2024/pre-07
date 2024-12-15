@@ -202,12 +202,12 @@ export default {
     height: 80px;
     transform: translateX(-40px) translateY(-40px);
     border-radius: 50%;
-    background-color: aqua;
+    background-color: rgba(239, 239, 239, 0.834);
+    color: #000;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 20px;
-    color: white;
     cursor: pointer;
 }
 </style>
