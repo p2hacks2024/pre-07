@@ -12,10 +12,6 @@
             <img v-if="search" src="@/assets/search.png" alt="search" />
             <img v-else src="@/assets/search2.png" alt="search" />
         </a>
-        <a href="#">
-            <img v-if="brain" src="@/assets/brain.png" alt="brain" />
-            <img v-else src="@/assets/brain2.png" alt="brain" />
-        </a>
         <a :href="islogin ? '/' + me : '/login'">
             <img v-if="human" src="@/assets/human.png" alt="human" />
             <img v-else src="@/assets/human2.png" alt="human" />
